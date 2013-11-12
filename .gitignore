@@ -1,0 +1,8 @@
+*.pyc
+.idea/
+env/
+*~
+*.bak
+*.swp
+tmp/
+settings_local.py
