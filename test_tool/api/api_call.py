@@ -38,5 +38,8 @@ def make_api_call(session_dict, type, uri, auth=True, data=None, **kwargs):
     except ValueError as e:
         raise ApiException(url, response.text, e)
 
-def api_get(uri, session_dict=None, auth=False):
+def api_get(uri, session_dict=None, auth=False, session=None):
+    if session_dict is None:
+        session_dict={}
+        session_dict['session'] = Session()
     return make_api_call(session_dict, 'GET', uri, auth)

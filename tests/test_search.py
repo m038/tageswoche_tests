@@ -32,7 +32,7 @@ class SearchTestCase(TestCase):
         search_query = "Basel"
         check_results = 5  # check first five search results
 
-        search_resuls_api = [result['teaser'] for result in api_search(search_query)]
+        search_resuls_api = [result['teaser'] for result in api_search(self.session, search_query)]
 
         self.browser.get(navigate('/search/?q={search_query}'.format(search_query=search_query)))
         search_resuls_frontend = [result.text for result in
