@@ -68,8 +68,8 @@ def wait_for_one_of_elements(dict_of_functions, only_visible=False, timeout=MAX_
                     result_is_displayed = result.is_displayed()
                 except AttributeError:
                     try:
-                        result_is_displayed = result[0].is_displayed()
-                    except IndexError:
+                        result_is_displayed = max([r.is_displayed() for r in result])
+                    except (IndexError, TypeError):
                         result_is_displayed = False
                 except StaleElementReferenceException:
                     result_is_displayed = False

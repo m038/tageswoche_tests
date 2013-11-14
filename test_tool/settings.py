@@ -4,6 +4,9 @@ DEFAULT_BLOG = 1
 ADMIN_LOGIN = "admin"
 ADMIN_PASS = "a"
 
+USER_LOGIN = "user"
+USER_PASS = "u"
+
 ADMIN_URI = "/content/lib/core/start.html"
 EMBED_URI = "/content/lib/livedesk-embed/index.html"
 ADMIN_ANCHORS = {

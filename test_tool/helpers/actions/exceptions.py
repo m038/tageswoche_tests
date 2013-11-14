@@ -1,0 +1,2 @@
+class ActionHelperException(Exception):
+    pass
