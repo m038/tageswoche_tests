@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from test_tool.helpers.selenium_stuff import navigate
 from test_tool.helpers.actions.auth import log_in_as_user_if_necessary
-from test_tool.api.sections.auth import profile as api_profile
+from test_tool.api.sections.profile import profile as api_profile
 
 from tests import test_data
 

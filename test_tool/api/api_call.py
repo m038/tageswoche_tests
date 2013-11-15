@@ -2,44 +2,27 @@ import json
 from requests import Session
 from urlparse import urljoin
 
-from test_tool.settings import SERVER_URL
+from test_tool.settings import SERVER_URL, USER_LOGIN, USER_PASS
 from test_tool.api.auth import log_in
 from test_tool.api.exceptions import ApiException
 
 
-def session_dict_wrapper(session_dict=None):
-    if session_dict is None:
-        session_dict = {}
-    #if 'session_key' not in session_dict:
-    #    session_dict = log_in()
-    if 'session' not in session_dict:
-        session_dict['session'] = Session()
-    return session_dict
-
-
-def api_call(function):
-
-    def wrapper(session_dict = None, *args, **kwargs):
-        session_dict = session_dict_wrapper(session_dict)
-        return function(session_dict, *args, **kwargs)
-
-    return wrapper
-
-
-def make_api_call(session_dict, type, uri, auth=True, data=None, **kwargs):
-    session_dict = session_dict_wrapper(session_dict)
-    if auth:
-        uri = uri + '&Authorization={session_key}'.format(session_key=session_dict['session_key'])
+def make_api_call(session, type, uri, params=None, data=None, **kwargs):
     url = urljoin(SERVER_URL, uri)
-    session = session_dict['session']
-    response = session.request(type, url, data=data, verify=False, **kwargs)
+    response = session.request(type, url, data=data, verify=False, params=params, **kwargs)
     try:
         return json.loads(response.text)
     except ValueError as e:
         raise ApiException(url, response.text, e)
 
-def api_get(uri, session_dict=None, auth=False, session=None):
-    if session_dict is None:
-        session_dict={}
-        session_dict['session'] = Session()
-    return make_api_call(session_dict, 'GET', uri, auth)
+def api_get(uri, session=None, params=None):
+    if session is None:
+        session = Session()
+    return make_api_call(session, 'GET', uri, params=params)
+
+def api_get_with_auth(uri, session=None, auth=False, params=None, username=USER_LOGIN, password=USER_PASS):
+    params['username'] = username
+    params['password'] = password
+    if session is None:
+        session = Session()
+    return make_api_call(session, 'GET', uri, params=params)
