@@ -55,12 +55,42 @@ class SearchTestCase(TestCase):
 
     def test_playlist_frontpage(self):
         """
-        check if frontpage (http://tageswoche.ch) and second page are contain URLs of 15 first objects (attribute Rank) regarding to their article id.
+        check if frontpage (http://tageswoche.ch) and it's second page are contain URLs of 15 first objects (attribute Rank) regarding to their article id.
         """
         self.verify_playlist(section_id=6, uri='/', check_results=15)
 
     def test_playlist_basel(self):
         """
-        check if frontpage (http://www.tageswoche.ch/basel/) contains URLs of 14 first objects (attribute Rank) regarding to their article id.
+        check if frontpage (http://www.tageswoche.ch/basel) contains URLs of 14 first objects (attribute Rank) regarding to their article id.
         """
         self.verify_playlist(section_id=7, uri='/basel', check_results=14)
+
+    def test_playlist_schweiz(self):
+        """
+        check if frontpage (http://www.tageswoche.ch/schweiz) and it's second page are contain URLs of 15 first objects (attribute Rank) regarding to their article id.
+        """
+        self.verify_playlist(section_id=8, uri='/schweiz', check_results=15)  # @TODO:18
+
+    def test_playlist_international(self):
+        """
+        check if frontpage (http://www.tageswoche.ch/international) and it's second page are contain URLs of 15 first objects (attribute Rank) regarding to their article id.
+        """
+        self.verify_playlist(section_id=9, uri='/international', check_results=15)  # @TODO:18
+
+    def test_playlist_sport(self):
+        """
+        check if frontpage (http://www.tageswoche.ch/sport) and it's second page are contain URLs of 15 first objects (attribute Rank) regarding to their article id.
+        """
+        self.verify_playlist(section_id=10, uri='/sport', check_results=15)  # @TODO:18
+
+    def test_playlist_kultur(self):
+        """
+        check if frontpage (http://www.tageswoche.ch/kultur) and it's second page are contain URLs of 15 first objects (attribute Rank) regarding to their article id.
+        """
+        self.verify_playlist(section_id=11, uri='/kultur', check_results=15)  # @TODO:18
+
+    def test_playlist_leben(self):
+        """
+        check if frontpage (http://www.tageswoche.ch/leben) and it's second page are contain URLs of 15 first objects (attribute Rank) regarding to their article id.
+        """
+        self.verify_playlist(section_id=25, uri='/leben', check_results=15)  # @TODO:18
