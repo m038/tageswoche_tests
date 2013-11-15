@@ -14,6 +14,7 @@ class PlaylistTestCase(TestCase):
         #    raise SkipTest("new advertisement functionality enabled only on 'devel' branch")
         cls.session = test_data.session
         cls.browser = test_data.browser_embed
+        print('*Playlist')
 
     @classmethod
     def tearDownClass(cls):
