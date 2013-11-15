@@ -154,3 +154,6 @@ def alt_click(browser, element):
     time.sleep(DEFAULT_WAIT)
     action = ActionChains(browser).release(element)
     action.perform()
+
+def unescape(s):
+    return s.replace('&amp;', '&')

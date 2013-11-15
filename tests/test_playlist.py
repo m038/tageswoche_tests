@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from test_tool.helpers.selenium_stuff import navigate
+from test_tool.helpers.selenium_stuff import navigate, unescape
 from test_tool.api.sections.articles import list as api_list
 
 from tests import test_data
@@ -25,9 +25,7 @@ class SearchTestCase(TestCase):
     def tearDown(self):
         pass
 
-    def verify_playlist(self, section_id, uri):
-
-        check_results = 11
+    def verify_playlist(self, section_id, uri, check_results):
 
         articles_links_api = [
             {
@@ -45,14 +43,24 @@ class SearchTestCase(TestCase):
 
         for i in range(check_results):
             if articles_links_api[i]['link']:
-                self.assertEqual(articles_links_api[i]['url'], articles_links_frontend[i],
-                    '{0}-st article in {1}-st playlist not matches'.format(i, section_id))
+                self.assertEqual(unescape(articles_links_api[i]['url']), articles_links_frontend[i],
+                    '{n}-st article in {section_id}-st playlist not matches ({url_a}, {url_f})'.format(
+                        n=i+1, section_id=section_id,
+                        url_a=articles_links_api[i]['url'], url_f=articles_links_frontend[i]))
             else:
                 self.assertIn(str(articles_links_api[i]['article_id']), articles_links_frontend[i],
-                    '{0}-st article in {1}-st playlist not matches'.format(i, section_id))
+                    '{n}-st article in {section_id}-st playlist not matches ({article_id}, {url_f})'.format(
+                        n=i+1, section_id=section_id,
+                        article_id=articles_links_api[i]['article_id'], url_f=articles_links_frontend[i]))
 
     def test_playlist_frontpage(self):
         """
-        check if frontpage (http://tageswoche.ch) contains URLs of 11 first objects (attribute Rank) regarding to their article id.
+        check if frontpage (http://tageswoche.ch) and second page are contain URLs of 15 first objects (attribute Rank) regarding to their article id.
         """
-        self.verify_playlist(section_id=6, uri='/')
+        self.verify_playlist(section_id=6, uri='/', check_results=15)
+
+    def test_playlist_basel(self):
+        """
+        check if frontpage (http://www.tageswoche.ch/basel/) contains URLs of 14 first objects (attribute Rank) regarding to their article id.
+        """
+        self.verify_playlist(section_id=7, uri='/basel', check_results=14)

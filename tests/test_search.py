@@ -41,4 +41,4 @@ class SearchTestCase(TestCase):
 
         for i in range(check_results):
             self.assertEqual(search_resuls_api[i], search_resuls_frontend[i],
-                '{0}-st search result not matches'.format(i))
+                '{0}-st search result not matches'.format(i+1))
