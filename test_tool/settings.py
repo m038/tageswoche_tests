@@ -1,4 +1,4 @@
-SERVER_URL = "https://tw-dev:SoFab@tw-reloaded.lab.sourcefabric.org/"
+SERVER_URL = "http://www.tageswoche.ch/"
 DEFAULT_BLOG = 1
 
 ADMIN_LOGIN = "admin"
@@ -7,7 +7,7 @@ ADMIN_PASS = "a"
 USER_LOGIN = "user"
 USER_PASS = "u"
 
-ADMIN_URI = "/content/lib/core/start.html"
+ADMIN_URI = "/admin"
 EMBED_URI = "/content/lib/livedesk-embed/index.html"
 ADMIN_ANCHORS = {
     'users': '#/users',

@@ -34,7 +34,7 @@ class PlaylistTestCase(TestCase):
                 'article_id': result['article_id'],
                 'url': result['url'],
             }
-            for result in api_list(self.session, section_id)
+            for result in api_list(self.session, section_id=section_id)
         ]
 
         self.browser.get(navigate(uri))
