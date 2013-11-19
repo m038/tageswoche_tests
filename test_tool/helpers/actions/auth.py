@@ -20,6 +20,7 @@ def fill_login_form_admin(browser, username=ADMIN_LOGIN, password=ADMIN_PASS):
     browser.find_element_by_css_selector('input[name="Login"]').click()
 
 def log_in_if_necessary(browser, username=ADMIN_LOGIN, password=ADMIN_PASS):
+    browser.save_screenshot('screenshot.png')
     result = wait_for_one_of_elements({
                 "login_form": (browser.find_element_by_id, ('omniboxLoginEmail')),
                 "login_form_mobile": (browser.find_element_by_id, ('omniboxLoginEmailMobile')),
