@@ -9,6 +9,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 
+from test_tool.logger import logger
 from test_tool.helpers.js_stuff import js_is_visible
 from test_tool.settings import (SERVER_URL, ADMIN_URI, DEFAULT_WAIT, WEBDRIVER, MAX_WAIT)
 
@@ -115,7 +116,7 @@ def wait_for_visible(obj, timeout, function, until_not=False):
             elem = WebDriverWait(obj, timeout).until_not(function)
         else:
             elem = WebDriverWait(obj, timeout).until(function)
-        print(elem, elem.is_displayed())
+        logger.debug((elem, elem.is_displayed()),)
         if elem.is_displayed():
             return elem
         time_elapsed = datetime.now().second - start_time
@@ -131,7 +132,7 @@ def wait_for_visible_by_css(browser, timeout, selector, until_not=False):
             elem = WebDriverWait(browser, timeout).until_not(function)
         else:
             elem = WebDriverWait(browser, timeout).until(function)
-        print(selector, js_is_visible(browser, selector))
+        logger.debug((selector, js_is_visible(browser, selector)), )
         if js_is_visible(browser, selector):
             return elem
         time_elapsed = datetime.now().second - start_time
