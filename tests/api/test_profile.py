@@ -1,8 +1,8 @@
 from unittest import TestCase
 
 from test_tool.helpers.selenium_stuff import navigate
-from test_tool.helpers.actions.auth import log_in_as_user_if_necessary
 from test_tool.api.sections.profile import profile as api_profile
+from test_tool.settings import ADMIN_MAIL, ADMIN_PASS
 
 from tests import test_data
 
@@ -11,8 +11,6 @@ class ProfileTestCase(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        #if 'foobar' not in SERVER_URL:
-        #    raise SkipTest("new advertisement functionality enabled only on 'devel' branch")
         cls.session = test_data.session
         cls.browser = test_data.browser_admin
         print('*Profile')
@@ -33,6 +31,6 @@ class ProfileTestCase(TestCase):
         """
         self.browser.get(navigate('/dashboard'))
         frontend_first_name = self.browser.find_element_by_id('first_name').get_attribute('value')
-        api_first_name = api_profile(self.session)['first_name']
+        api_first_name = api_profile(self.session, username=ADMIN_MAIL, password=ADMIN_PASS)['first_name']
         self.assertEqual(api_first_name, frontend_first_name,
                          'first_name not matches in frontend and API')

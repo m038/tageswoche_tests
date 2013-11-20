@@ -10,8 +10,6 @@ class SearchTestCase(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        #if 'foobar' not in SERVER_URL:
-        #    raise SkipTest("new advertisement functionality enabled only on 'devel' branch")
         cls.session = test_data.session
         cls.browser = test_data.browser_guest
         print('*Search')

@@ -1,7 +1,8 @@
-from unittest import TestCase
+from unittest import TestCase, SkipTest
 
 from test_tool.helpers.selenium_stuff import navigate, id_generator
 from test_tool.helpers.actions.article import create_new_article, publish_article, create_new_blog
+from test_tool.settings import PRODUCTION
 
 from tests import test_data
 
@@ -10,13 +11,13 @@ class ProfileTestCase(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        #if 'foobar' not in SERVER_URL:
-        #    raise SkipTest("new advertisement functionality enabled only on 'devel' branch")
+        print('*Article')
+        if PRODUCTION:
+            raise SkipTest("this tests shouldn't be runned on production")
         cls.session = test_data.session
         cls.browser_admin = test_data.browser_admin
         cls.browser_blogger = test_data.browser_blogger
         cls.browser = test_data.browser_guest
-        print('*Article')
 
     @classmethod
     def tearDownClass(cls):
