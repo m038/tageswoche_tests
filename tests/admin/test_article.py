@@ -70,7 +70,7 @@ class ProfileTestCase(TestCase):
         #{{{
         mce_frame = WebDriverWait(self.browser_admin, LONG_AJAX).until(
                 lambda br: br.find_element_by_css_selector('.tinyMCEHolder iframe')
-        ) # the first iframe
+        ) # the first mce iframe
         self.browser_admin.switch_to_frame(mce_frame)
         self.browser_admin.find_element_by_css_selector('body#tinymce').send_keys(article_content)
         self.browser_admin.switch_to_default_content()

@@ -1,19 +1,13 @@
 SERVER_URL = "http://www.tageswoche.ch/"
-DEFAULT_BLOG = 1
-
+PRODUCTION = True
 ADMIN_LOGIN = "admin"
 ADMIN_PASS = "a"
-
 USER_LOGIN = "user"
 USER_PASS = "u"
+BLOGGER_LOGIN = "blogger"
+BLOGGER_PASS = "b"
 
 ADMIN_URI = "/admin"
-EMBED_URI = "/content/lib/livedesk-embed/index.html"
-ADMIN_ANCHORS = {
-    'users': '#/users',
-    'live-blog': '#/live-blog/{0}',
-    'live-blog-config': '#live-blog/{0}/config',
-}
 
 DEFAULT_WAIT = 0.5
 

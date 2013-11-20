@@ -64,7 +64,7 @@ def log_in_to_admin_backend_if_necessary(browser, username=ADMIN_LOGIN, password
 
     result = wait_for_one_of_elements({
             "login_failed": (browser.find_element_by_css_selector, ('div.login_error')),
-            "logged_in": (browser.find_elements_by_css_selector, ('a[href="/dashboard"]')),
+            "logged_in": (browser.find_elements_by_css_selector, ('a[href="/admin/auth/logout"]')),
     }, only_visible=True)
     logger.debug(result[0])
 
