@@ -20,12 +20,10 @@ def setUpModule():
     browser_blogger = test_data.browser_blogger
 
     def log_in_admin():
-        print('log_in_admin')
         browser_admin.get(navigate('/admin'))
         log_in_to_admin_backend_if_necessary(browser_admin, username=ADMIN_LOGIN, password=ADMIN_PASS)
 
     def log_in_blogger():
-        print('log_in_blogger')
         browser_blogger.get(navigate('/admin'))
         log_in_to_admin_backend_if_necessary(browser_blogger, username=BLOGGER_LOGIN, password=BLOGGER_PASS)
 
