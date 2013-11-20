@@ -14,7 +14,7 @@ class ProfileTestCase(TestCase):
         #if 'foobar' not in SERVER_URL:
         #    raise SkipTest("new advertisement functionality enabled only on 'devel' branch")
         cls.session = test_data.session
-        cls.browser = test_data.browser_embed
+        cls.browser = test_data.browser_admin
         print('*Profile')
 
     @classmethod
@@ -32,8 +32,6 @@ class ProfileTestCase(TestCase):
         This test verifies if user can login and if user dashboard gives correct info.
         """
         self.browser.get(navigate('/dashboard'))
-        if log_in_as_user_if_necessary(self.browser) == 'logged_in_mobile':
-            self.browser.get(navigate('/dashboard'))
         frontend_first_name = self.browser.find_element_by_id('first_name').get_attribute('value')
         api_first_name = api_profile(self.session)['first_name']
         self.assertEqual(api_first_name, frontend_first_name,

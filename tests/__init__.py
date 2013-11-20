@@ -12,7 +12,7 @@ def setUpModule():
     global test_data
     test_data.session = Session()
     test_data.browser_admin = new_webdriver()
-    test_data.browser_embed = new_webdriver()
+    test_data.browser_guest = new_webdriver()
 
     test_data.browser_admin.get(navigate('/auth'))
     log_in_if_necessary(test_data.browser_admin)
@@ -21,4 +21,4 @@ def setUpModule():
 def tearDownModule():
     global test_data
     test_data.browser_admin.close()
-    test_data.browser_embed.close()
+    test_data.browser_guest.close()

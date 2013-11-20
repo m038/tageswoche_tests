@@ -17,7 +17,7 @@ class ProfileTestCase(TestCase):
         #    raise SkipTest("new advertisement functionality enabled only on 'devel' branch")
         cls.session = test_data.session
         cls.browser_admin = test_data.browser_admin
-        cls.browser = test_data.browser_embed
+        cls.browser = test_data.browser_guest
         print('*Article')
 
     @classmethod
@@ -32,7 +32,7 @@ class ProfileTestCase(TestCase):
 
     def test_add_new_article(self):
         """
-        Make a new article and check on front-end as editor author articles.
+        Create a new article and check it on front-end.
         """
         article_title = id_generator()
         article_content = ' '.join([id_generator() for i in range(20)]) # 20 random "words"
