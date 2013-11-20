@@ -54,3 +54,10 @@ def publish_article(browser, article_content):
         .select_by_value('Y')
     webcode = browser.find_element_by_xpath('/html/body/div[4]/div[3]/div[5]/div[2]/dl/dd[5]').text
     return webcode
+
+def create_new_blog(browser, blog_title):
+    browser.get(navigate('/admin'))
+    WebDriverWait(browser, LONG_AJAX).until(
+        lambda br: br.find_element_by_id('title')
+    ).send_keys(blog_title)
+    browser.find_element_by_id('submit').click()
