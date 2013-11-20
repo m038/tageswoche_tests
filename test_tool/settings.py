@@ -1,10 +1,13 @@
 SERVER_URL = "http://www.tageswoche.ch/"
 PRODUCTION = True
 ADMIN_LOGIN = "admin"
+ADMIN_MAIL = "admin"
 ADMIN_PASS = "a"
 USER_LOGIN = "user"
+USER_MAIL = "user"
 USER_PASS = "u"
 BLOGGER_LOGIN = "blogger"
+BLOGGER_MAIL = "blogger"
 BLOGGER_PASS = "b"
 
 ADMIN_URI = "/admin"

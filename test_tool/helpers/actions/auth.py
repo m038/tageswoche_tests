@@ -1,15 +1,15 @@
 from test_tool.logger import logger
-from test_tool.settings import ADMIN_LOGIN, ADMIN_PASS, USER_LOGIN, USER_PASS
+from test_tool.settings import ADMIN_LOGIN, ADMIN_PASS, USER_MAIL, USER_PASS, ADMIN_MAIL
 from test_tool.helpers.selenium_stuff import wait_for_one_of_elements
 from test_tool.helpers.actions.exceptions import ActionHelperException
 
 
-def fill_login_form(browser, username=ADMIN_LOGIN, password=ADMIN_PASS):
+def fill_login_form(browser, username=ADMIN_MAIL, password=ADMIN_PASS):
     browser.find_element_by_id("omniboxLoginEmail").send_keys(username)
     browser.find_element_by_id("omniboxLoginPassword").send_keys(password)
     browser.find_element_by_css_selector('button[type="submit"]').click()
 
-def fill_login_form_mobile(browser, username=ADMIN_LOGIN, password=ADMIN_PASS):
+def fill_login_form_mobile(browser, username=ADMIN_MAIL, password=ADMIN_PASS):
     browser.find_element_by_id("omniboxLoginEmailMobile").send_keys(username)
     browser.find_element_by_id("omniboxLoginPasswordMobile").send_keys(password)
     browser.find_element_by_xpath('//*[@id="omniboxLoginFormMobile"]/ul/li[2]/ul/li[4]/button').click()
@@ -19,7 +19,7 @@ def fill_login_form_admin(browser, username=ADMIN_LOGIN, password=ADMIN_PASS):
     browser.find_element_by_css_selector('input[name="f_password"]').send_keys(password)
     browser.find_element_by_css_selector('input[name="Login"]').click()
 
-def log_in_if_necessary(browser, username=ADMIN_LOGIN, password=ADMIN_PASS):
+def log_in_if_necessary(browser, username=ADMIN_MAIL, password=ADMIN_PASS):
     result = wait_for_one_of_elements({
                 "login_form": (browser.find_element_by_id, ('omniboxLoginEmail')),
                 "login_form_mobile": (browser.find_element_by_id, ('omniboxLoginEmailMobile')),
@@ -47,7 +47,7 @@ def log_in_if_necessary(browser, username=ADMIN_LOGIN, password=ADMIN_PASS):
     return result[0]
 
 
-def log_in_as_user_if_necessary(browser, username=USER_LOGIN, password=USER_PASS):
+def log_in_as_user_if_necessary(browser, username=USER_MAIL, password=USER_PASS):
     return log_in_if_necessary(browser, username, password)
 
 def log_in_to_admin_backend_if_necessary(browser, username=ADMIN_LOGIN, password=ADMIN_PASS):
