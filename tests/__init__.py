@@ -27,3 +27,4 @@ def tearDownModule():
     global test_data
     test_data.browser_admin.close()
     test_data.browser_guest.close()
+    test_data.browser_blogger.close()
