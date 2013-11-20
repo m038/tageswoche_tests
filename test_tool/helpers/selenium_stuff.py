@@ -7,7 +7,7 @@ from urlparse import urljoin
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
+from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, TimeoutException
 
 from test_tool.logger import logger
 from test_tool.helpers.js_stuff import js_is_visible
@@ -112,12 +112,13 @@ def wait_for_visible(obj, timeout, function, until_not=False):
     start_time = datetime.now().second
     time_elapsed = 0
     while time_elapsed < timeout:
-        if until_not:
-            elem = WebDriverWait(obj, timeout).until_not(function)
-        else:
+        try:
             elem = WebDriverWait(obj, timeout).until(function)
+        except TimeoutException as e:
+            if not until_not:
+                raise(e)
         logger.debug((elem, elem.is_displayed()),)
-        if elem.is_displayed():
+        if elem.is_displayed() != until_not:
             return elem
         time_elapsed = datetime.now().second - start_time
         time.sleep(DEFAULT_WAIT)
