@@ -34,14 +34,14 @@ class ProfileTestCase(TestCase):
         Create a new article and check it on front-end.
         """
         article_title = id_generator()
-        article_content = ' '.join([id_generator() for i in range(20)]) # 20 random "words"
+        article_content = ' '.join([id_generator() for i in range(20)])  # 20 random "words"
         create_new_article(
             browser=self.browser_admin,
             article_title=article_title,
-            article_type = 'news',
-            article_language = 'Deutsch',
-            article_publication = 'Tageswoche',
-            article_section = 'Basel'
+            article_type='news',
+            article_language='Deutsch',
+            article_publication='Tageswoche',
+            article_section='Basel'
         )
         webcode = publish_article(self.browser_admin, article_content)
 
@@ -58,7 +58,7 @@ class ProfileTestCase(TestCase):
         Create a new blog record and check it on front-end.
         """
         blog_title = id_generator()
-        blog_content = ' '.join([id_generator() for i in range(20)]) # 20 random "words"
+        blog_content = ' '.join([id_generator() for i in range(20)])  # 20 random "words"
         create_new_blog(self.browser_blogger, blog_title)
         webcode = publish_article(self.browser_blogger, blog_content)
 

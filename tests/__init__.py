@@ -31,7 +31,7 @@ def setUpModule():
     thread2.start()
     thread1 = threading.Thread(target=log_in_admin)
     thread1.start()
-    while threading.active_count() >1:
+    while threading.active_count() > 1:
         pass
 
 
