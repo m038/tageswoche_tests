@@ -2,6 +2,7 @@ from selenium.webdriver.support.ui import Select, WebDriverWait
 
 from test_tool.settings import LONG_AJAX
 from test_tool.helpers.selenium_stuff import navigate, wait_for_visible
+from test_tool.helpers.js_stuff import no_browser_popups
 from test_tool.logger import logger
 
 
@@ -33,22 +34,32 @@ def create_new_article(browser, article_title, article_type, article_language, a
     browser.find_element_by_css_selector('input[name="save"]').click()
 
 
-def publish_article(browser, article_content):
+def edit_article(browser, article_content, action='save'):
+    """
+    action: save, close, save_and_close
+    """
     mce_frame = WebDriverWait(browser, LONG_AJAX).until(
         lambda br: br.find_element_by_css_selector('.tinyMCEHolder iframe')
     )  # the first mce iframe
     browser.switch_to_frame(mce_frame)
-    browser.find_element_by_css_selector('body#tinymce').send_keys(article_content)
+    edit_field = browser.find_element_by_css_selector('body#tinymce')
+    edit_field.clear()
+    edit_field.send_keys(article_content)
     browser.switch_to_default_content()
 
-    browser.find_element_by_css_selector('input[id="save"]').click()
+    browser.find_element_by_css_selector('input[id="{action}"]'.format(action=action)).click()
     article_saved_popup = lambda br:\
         True if max(
             [element.text == 'Article saved.' for element
              in br.find_elements_by_css_selector('div.flash')]
         ) else None
-    WebDriverWait(browser, LONG_AJAX).until(article_saved_popup)
-    logger.debug('popup')
+    if action in ['save', 'save_and_close']:
+        WebDriverWait(browser, LONG_AJAX).until(article_saved_popup)
+        logger.debug('popup')
+
+
+def publish_article(browser, article_content):
+    edit_article(browser, article_content, action='save')
 
     Select(browser.find_element_by_css_selector('select[name="f_action_workflow"]'))\
         .select_by_value('Y')
