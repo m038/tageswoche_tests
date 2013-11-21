@@ -104,9 +104,11 @@ def toogle_checkbox_off(checkbox):
 def id_generator(size=20, chars=string.ascii_letters + string.digits):
     return ''.join(random.choice(chars) for i in xrange(size))
 
+
 def get_image_name_from_path(path):
     image_name, null = os.path.splitext(path.split('/')[-1])
     return image_name
+
 
 def wait_for_visible(obj, timeout, function, until_not=False):
     start_time = datetime.now().second
@@ -124,6 +126,7 @@ def wait_for_visible(obj, timeout, function, until_not=False):
         time.sleep(DEFAULT_WAIT)
     raise SeleniumHelperException("Max timeout reached for waiting for element")
 
+
 def wait_for_visible_by_css(browser, timeout, selector, until_not=False):
     function = lambda br: br.find_element_by_css_selector(selector)
     start_time = datetime.now().second
@@ -140,12 +143,15 @@ def wait_for_visible_by_css(browser, timeout, selector, until_not=False):
         time.sleep(DEFAULT_WAIT)
     raise SeleniumHelperException("Max timeout reached for waiting for element")
 
+
 def hover(browser, element):
     action = ActionChains(browser).move_to_element(element)
     action.perform()
 
+
 def scroll_to(element):
     return element.location_once_scrolled_into_view
+
 
 def alt_click(browser, element):
     """
@@ -157,5 +163,20 @@ def alt_click(browser, element):
     action = ActionChains(browser).release(element)
     action.perform()
 
+
 def unescape(s):
     return s.replace('&amp;', '&')
+
+
+def accept_js_alert(browser):
+    alert = browser.switch_to_alert()
+    msg = alert.text  # it's workaround for 'a is null'
+    alert.accept()
+    return msg
+
+
+def dismiss_js_alert(browser):
+    alert = browser.switch_to_alert()
+    msg = alert.text  # it's workaround for 'a is null'
+    alert.dismiss()
+    return msg

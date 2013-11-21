@@ -1,14 +1,14 @@
 from unittest import TestCase, SkipTest
 
-from test_tool.helpers.js_stuff import no_browser_popups
-from test_tool.helpers.selenium_stuff import navigate, id_generator
+from selenium.webdriver.support.ui import WebDriverWait
+from test_tool.helpers.selenium_stuff import navigate, id_generator, accept_js_alert, dismiss_js_alert
 from test_tool.helpers.actions.article import create_new_article, publish_article, edit_article
-from test_tool.settings import PRODUCTION
+from test_tool.settings import PRODUCTION, MAX_WAIT
 
 from tests import test_data
 
 
-class ProfileTestCase(TestCase):
+class ArticleTestCase(TestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -70,6 +70,19 @@ class ProfileTestCase(TestCase):
         Changing articles as editor - Close without save
         """
         new_article_content = ' '.join([id_generator() for i in range(20)])  # 20 random "words"
-        no_browser_popups(self.browser_admin)
         edit_article(self.browser_admin, new_article_content, action='close')
+        WebDriverWait(self.browser_admin, MAX_WAIT).until(dismiss_js_alert)
+        WebDriverWait(self.browser_admin, MAX_WAIT).until(accept_js_alert)
         self.verify_article_content_on_frontend(self.article_content)
+
+    def test_edit_article_close_with_save(self):
+        """
+        Changing articles as editor - Close with save
+        """
+        new_article_content = ' '.join([id_generator() for i in range(20)])  # 20 random "words"
+        #no_browser_popups(self.browser_admin)
+        edit_article(self.browser_admin, new_article_content, action='close')
+        print(self.browser_admin.switch_to_alert().text)
+        WebDriverWait(self.browser_admin, MAX_WAIT).until(accept_js_alert)
+        WebDriverWait(self.browser_admin, MAX_WAIT).until(accept_js_alert)
+        self.verify_article_content_on_frontend(new_article_content)

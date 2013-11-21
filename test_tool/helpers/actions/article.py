@@ -2,7 +2,6 @@ from selenium.webdriver.support.ui import Select, WebDriverWait
 
 from test_tool.settings import LONG_AJAX
 from test_tool.helpers.selenium_stuff import navigate, wait_for_visible
-from test_tool.helpers.js_stuff import no_browser_popups
 from test_tool.logger import logger
 
 
