@@ -32,9 +32,19 @@ https://code.google.com/p/chromedriver/downloads/list
 $ nosetests -v
 ```
 
+####  run particular module
+```sh
+$ nosetests -v -w tests/api/
+```
+
+####  run particular testcase:
+```sh
+$ nosetests -v tests.api.test_search
+```
+
 ####  run particular test:
 ```sh
-$ nosetests -v tests.test_search:SearchTestCase.test_search
+$ nosetests -v tests.api.test_search:SearchTestCase.test_search
 ```
 
 #### run particular tests from different testcases (by name part):
