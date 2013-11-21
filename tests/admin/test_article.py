@@ -1,5 +1,6 @@
 from unittest import TestCase, SkipTest
 
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from test_tool.helpers.selenium_stuff import navigate, id_generator, accept_js_alert, dismiss_js_alert
 from test_tool.helpers.actions.article import create_new_article, publish_article, edit_article
@@ -51,6 +52,14 @@ class ArticleTestCase(TestCase):
         self.assertEqual(new_content, result_content,
                          "Article content not matches")
 
+    def verify_article_list_presence(self):
+        try:
+            WebDriverWait(self.browser_admin, MAX_WAIT).until(
+                lambda br: br.find_element_by_css_selector('div.toolbar.clearfix span.article-title')
+            )
+        except TimeoutException:
+            self.fail("Article list wasn't opened")
+
     def test_add_new_article(self):
         """
         Create a new article and check it on front-end.
@@ -74,15 +83,24 @@ class ArticleTestCase(TestCase):
         WebDriverWait(self.browser_admin, MAX_WAIT).until(dismiss_js_alert)
         WebDriverWait(self.browser_admin, MAX_WAIT).until(accept_js_alert)
         self.verify_article_content_on_frontend(self.article_content)
+        self.verify_article_list_presence()
 
     def test_edit_article_close_with_save(self):
         """
         Changing articles as editor - Close with save
         """
         new_article_content = ' '.join([id_generator() for i in range(20)])  # 20 random "words"
-        #no_browser_popups(self.browser_admin)
         edit_article(self.browser_admin, new_article_content, action='close')
-        print(self.browser_admin.switch_to_alert().text)
         WebDriverWait(self.browser_admin, MAX_WAIT).until(accept_js_alert)
         WebDriverWait(self.browser_admin, MAX_WAIT).until(accept_js_alert)
         self.verify_article_content_on_frontend(new_article_content)
+        self.verify_article_list_presence()
+
+    def test_edit_article_save_and_close(self):
+        """
+        Changing articles as editor - Save and close
+        """
+        new_article_content = ' '.join([id_generator() for i in range(20)])  # 20 random "words"
+        edit_article(self.browser_admin, new_article_content, action='save_and_close')
+        self.verify_article_content_on_frontend(new_article_content)
+        self.verify_article_list_presence()

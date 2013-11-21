@@ -47,14 +47,20 @@ def edit_article(browser, article_content, action='save'):
     browser.switch_to_default_content()
 
     browser.find_element_by_css_selector('input[id="{action}"]'.format(action=action)).click()
-    article_saved_popup = lambda br:\
-        True if max(
-            [element.text == 'Article saved.' for element
-             in br.find_elements_by_css_selector('div.flash')]
-        ) else None
-    if action in ['save', 'save_and_close']:
-        WebDriverWait(browser, LONG_AJAX).until(article_saved_popup)
+
+    if action == 'save':
+        WebDriverWait(browser, LONG_AJAX).until(
+            lambda br:
+            True if max(
+                [element.text == 'Article saved.' for element
+                 in br.find_elements_by_css_selector('div.flash')]
+            ) else None
+        )
         logger.debug('popup')
+    if action == 'save_and_close':
+        WebDriverWait(browser, LONG_AJAX).until(
+            lambda br: br.find_element_by_css_selector('div.toolbar.clearfix span.article-title')
+        )
 
 
 def publish_article(browser, article_content):
