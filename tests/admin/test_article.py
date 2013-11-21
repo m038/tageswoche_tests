@@ -1,7 +1,8 @@
 from unittest import TestCase, SkipTest
 
+from test_tool.helpers.js_stuff import no_browser_popups
 from test_tool.helpers.selenium_stuff import navigate, id_generator
-from test_tool.helpers.actions.article import create_new_article, publish_article, create_new_blog
+from test_tool.helpers.actions.article import create_new_article, publish_article, edit_article
 from test_tool.settings import PRODUCTION
 
 from tests import test_data
@@ -36,20 +37,39 @@ class ProfileTestCase(TestCase):
             article_publication='Tageswoche',
             article_section='Basel'
         )
-        self.edit_url = self.browser_admin.current_url
         self.webcode = publish_article(self.browser_admin, self.article_content)
 
     def tearDown(self):
         pass
 
-    def test_add_new_article(self):
-        """
-        Create a new article and check it on front-end.
-        """
+    def verify_article_content_on_frontend(self, new_content):
         self.browser.get(navigate(self.webcode))
         result_title = self.browser.find_element_by_css_selector('article h2').text
         self.assertEqual(self.article_title, result_title,
                          "Article title not matches")
         result_content = self.browser.find_element_by_xpath('//*[@id="article-front"]/div[1]/section/article/p[2]').text
-        self.assertEqual(self.article_content, result_content,
+        self.assertEqual(new_content, result_content,
                          "Article content not matches")
+
+    def test_add_new_article(self):
+        """
+        Create a new article and check it on front-end.
+        """
+        self.verify_article_content_on_frontend(self.article_content)
+
+    def test_edit_article_save_all(self):
+        """
+        Changing articles as editor - Save All
+        """
+        new_article_content = ' '.join([id_generator() for i in range(20)])  # 20 random "words"
+        edit_article(self.browser_admin, new_article_content, action='save')
+        self.verify_article_content_on_frontend(new_article_content)
+
+    def test_edit_article_close_without_save(self):
+        """
+        Changing articles as editor - Close without save
+        """
+        new_article_content = ' '.join([id_generator() for i in range(20)])  # 20 random "words"
+        no_browser_popups(self.browser_admin)
+        edit_article(self.browser_admin, new_article_content, action='close')
+        self.verify_article_content_on_frontend(self.article_content)
