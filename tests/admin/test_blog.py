@@ -50,7 +50,7 @@ class BlogTestCase(TestCase):
     def verify_blog_list_presence(self):
         try:
             WebDriverWait(self.browser_blogger, MAX_WAIT).until(
-                lambda br: True if 'Blog management (*)' in br.find_element_by_css_selector('h1').text
+                lambda br: True if u'Blog management (*)' in br.find_element_by_css_selector('h1').text
                 else None
             )
         except TimeoutException:
