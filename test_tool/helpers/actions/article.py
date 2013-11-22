@@ -37,7 +37,7 @@ def edit_article(browser, article_content, action='save'):
     """
     action: save, close, save_and_close
     """
-    mce_frame = WebDriverWait(browser, LONG_AJAX).until(
+    mce_frame = WebDriverWait(browser, 60).until(  # @TODO: hardcoded timeout, and it's too large
         lambda br: br.find_element_by_css_selector('.tinyMCEHolder iframe')
     )  # the first mce iframe
     browser.switch_to_frame(mce_frame)
