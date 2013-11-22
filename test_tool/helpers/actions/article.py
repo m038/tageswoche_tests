@@ -59,7 +59,7 @@ def edit_article(browser, article_content, action='save'):
         logger.debug('popup')
     if action == 'save_and_close':
         WebDriverWait(browser, LONG_AJAX).until(
-            lambda br: br.find_element_by_css_selector('div.toolbar.clearfix span.article-title')
+            lambda br: br.find_element_by_css_selector('div.table')
         )
 
 
