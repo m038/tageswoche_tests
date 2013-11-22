@@ -7,7 +7,7 @@ from test_tool.settings import PRODUCTION
 from tests import test_data
 
 
-class ProfileTestCase(TestCase):
+class BlogTestCase(TestCase):
 
     @classmethod
     def setUpClass(cls):
