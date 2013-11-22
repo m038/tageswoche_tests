@@ -1,7 +1,7 @@
 from unittest import TestCase, SkipTest
-
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
+
 from test_tool.helpers.selenium_stuff import navigate, id_generator, accept_js_alert, dismiss_js_alert
 from test_tool.helpers.actions.article import create_new_article, publish_article, edit_article
 from test_tool.settings import PRODUCTION, MAX_WAIT
@@ -55,7 +55,9 @@ class ArticleTestCase(TestCase):
     def verify_article_list_presence(self):
         try:
             WebDriverWait(self.browser_admin, MAX_WAIT).until(
-                lambda br: br.find_element_by_css_selector('div.toolbar.clearfix span.article-title')
+                lambda br: True if 'Article List' in
+                                   br.find_element_by_css_selector('div.toolbar.clearfix span.article-title')
+                else None
             )
         except TimeoutException:
             self.fail("Article list wasn't opened")
