@@ -11,7 +11,7 @@ from selenium.common.exceptions import NoSuchElementException, StaleElementRefer
 
 from test_tool.logger import logger
 from test_tool.helpers.js_stuff import js_is_visible
-from test_tool.settings import (SERVER_URL, ADMIN_URI, DEFAULT_WAIT, WEBDRIVER, MAX_WAIT)
+from test_tool.settings import (SERVER_URL, ADMIN_URI, DEFAULT_WAIT, WEBDRIVER, MAX_WAIT, MOBILE)
 
 
 class SeleniumHelperException(Exception):
@@ -26,7 +26,14 @@ def new_webdriver(webdriver_name=WEBDRIVER):
     webdriver_name = webdriver_name.lower()
     if webdriver_name == 'firefox':
         profile = webdriver.FirefoxProfile()
+        if not MOBILE:
+            profile.set_preference('browser.window.width', 1024)
+            profile.set_preference('browser.window.height', 768)
+        else:
+            profile.set_preference('browser.window.width', 600)
+            profile.set_preference('browser.window.height', 800)
         profile.set_preference('network.http.phishy-userpass-length', 255)
+        #profile.update_preferences()
         driver = webdriver.Firefox(firefox_profile=profile)
         return driver
     elif webdriver_name == 'chrome':

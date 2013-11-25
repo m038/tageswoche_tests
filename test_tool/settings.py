@@ -9,6 +9,7 @@ USER_PASS = "u"
 BLOGGER_LOGIN = "blogger"
 BLOGGER_MAIL = "blogger"
 BLOGGER_PASS = "b"
+MOBILE = False
 
 ADMIN_URI = "/admin"
 
