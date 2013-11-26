@@ -12,7 +12,7 @@ class AdditionalVerifiesTestClass(object):
                 lambda br: br.find_element_by_css_selector(selector)
             )
         except TimeoutException:
-            self.fail("No {selector}".format(selector=selector))
+            self.fail("No '{selector}'".format(selector=selector))
 
     def verify_text_in_selector(self, selector, text):
         try:

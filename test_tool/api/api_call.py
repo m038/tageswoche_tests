@@ -30,6 +30,7 @@ def api_get_with_auth(uri, session=None, auth=False, params=None, username=USER_
         session = Session()
     return make_api_call(session, 'GET', uri, params=params)
 
+
 def api_post_with_auth(uri, session=None, auth=False, data=None, username=USER_LOGIN, password=USER_PASS, **kwargs):
     if data is None:
         data = {}
