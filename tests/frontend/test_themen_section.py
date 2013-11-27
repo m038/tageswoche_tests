@@ -8,7 +8,7 @@ from tests.additional_verifications import AdditionalVerifiesTestClass
 from tests import test_data
 
 
-class TopicThemenTestCase(TestCase, AdditionalVerifiesTestClass):
+class ThemenSectionTestCase(TestCase, AdditionalVerifiesTestClass):
 
     @classmethod
     def setUpClass(cls):
