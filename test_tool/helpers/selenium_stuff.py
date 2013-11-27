@@ -26,15 +26,12 @@ def new_webdriver(webdriver_name=WEBDRIVER):
     webdriver_name = webdriver_name.lower()
     if webdriver_name == 'firefox':
         profile = webdriver.FirefoxProfile()
-        if not MOBILE:
-            profile.set_preference('browser.window.width', 1024)
-            profile.set_preference('browser.window.height', 768)
-        else:
-            profile.set_preference('browser.window.width', 600)
-            profile.set_preference('browser.window.height', 800)
         profile.set_preference('network.http.phishy-userpass-length', 255)
-        #profile.update_preferences()
         driver = webdriver.Firefox(firefox_profile=profile)
+        if not MOBILE:
+            driver.set_window_size(1024, 768)
+        else:
+            driver.set_window_size(600, 800)
         return driver
     elif webdriver_name == 'chrome':
         #import pudb; pudb.set_trace()
