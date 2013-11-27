@@ -1,7 +1,6 @@
 from unittest import TestCase
 
-from test_tool.helpers.selenium_stuff import navigate, unescape
-from test_tool.api.sections.articles import list as api_list
+from test_tool.helpers.selenium_stuff import navigate
 from test_tool.api.api_call import api_get
 
 from tests.additional_verifications import AdditionalVerifiesTestClass
@@ -27,34 +26,6 @@ class ThemenSectionTestCase(TestCase, AdditionalVerifiesTestClass):
 
     def tearDown(self):
         pass
-
-    def verify_playlist(self, section_id, uri, check_results):
-
-        articles_links_api = [
-            {
-                'link': result['link'],
-                'article_id': result['article_id'],
-                'url': result['url'],
-            }
-            for result in api_list(self.session, section_id=section_id)
-        ]
-
-        self.browser.get(navigate(uri))
-        articles_links_frontend = [result.get_attribute('href') for result in
-                                   self.browser.find_elements_by_css_selector('article h2 a')
-                                   ]
-
-        for i in range(check_results):
-            if articles_links_api[i]['link']:
-                self.assertEqual(unescape(articles_links_api[i]['url']), articles_links_frontend[i],
-                                 '{n}-st article in {section_id}-st playlist not matches ({url_a}, {url_f})'.format(
-                                     n=i+1, section_id=section_id,
-                                     url_a=articles_links_api[i]['url'], url_f=articles_links_frontend[i]))
-            else:
-                self.assertIn(str(articles_links_api[i]['article_id']), articles_links_frontend[i],
-                              '{n}-st article in {section_id}-st playlist not matches ({article_id}, {url_f})'.format(
-                                  n=i+1, section_id=section_id,
-                                  article_id=articles_links_api[i]['article_id'], url_f=articles_links_frontend[i]))
 
     def test_top(self):
         top_text_frontend = self.browser.find_element_by_css_selector('figure.mobile-pull-left big b').text
