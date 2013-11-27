@@ -12,7 +12,7 @@ class ThemenSectionTestCase(TestCase, AdditionalVerifiesTestClass):
 
     @classmethod
     def setUpClass(cls):
-        print('*Topic/Themen')
+        print('*Topic/Themen Section page')
         cls.session = test_data.session
         cls.browser = test_data.browser_guest
         cls.api_result = api_get(uri='/api/dossiers/list?active=true&client=ipad', session=cls.session)
