@@ -27,3 +27,24 @@ def add_comment(browser, subject=None, content=None):
         'subject': subject,
         'content': content
     }
+
+
+def show_all_comments(browser):
+    all_comments_button = WebDriverWait(browser, MAX_WAIT).until(
+        lambda br: br.find_element_by_css_selector('a[href="#alle-kommentare"]')
+    )
+    all_comments_button.click()
+
+
+def get_all_comments_contents(browser):
+    show_all_comments(browser)
+    comments = {}
+    comments_elements = browser.find_elements_by_css_selector('#alle-kommentare li')
+    for element in comments_elements:
+        id = element.get_attribute('data-comment-id')
+        comments[id] = {
+            'subject': element.find_element_by_css_selector('h4'),
+            'content': element.find_element_by_css_selector('p'),
+            'author': element.find_element_by_css_selector('span.comment-uname'),
+        }
+    return comments
