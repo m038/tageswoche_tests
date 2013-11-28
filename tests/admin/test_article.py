@@ -3,7 +3,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 
 from test_tool.helpers.selenium_stuff import navigate, id_generator, accept_js_alert, dismiss_js_alert
-from test_tool.helpers.actions.article import create_new_article, publish_article, edit_article
+from test_tool.helpers.actions.admin.article import create_new_article, publish_article, edit_article
 from test_tool.settings import PRODUCTION, MAX_WAIT
 
 from tests import test_data
