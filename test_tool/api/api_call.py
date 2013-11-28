@@ -2,7 +2,7 @@ import json
 from requests import Session
 from urlparse import urljoin
 
-from test_tool.settings import SERVER_URL, USER_LOGIN, USER_PASS
+from test_tool.settings import SERVER_URL, USER_MAIL, USER_PASS
 from test_tool.api.exceptions import ApiException
 
 
@@ -21,20 +21,20 @@ def api_get(uri, session=None, params=None):
     return make_api_call(session, 'GET', uri, params=params)
 
 
-def api_get_with_auth(uri, session=None, auth=False, params=None, username=USER_LOGIN, password=USER_PASS):
+def api_get_with_auth(uri, session=None, auth=False, params=None, email=USER_MAIL, password=USER_PASS):
     if params is None:
         params = {}
-    params['username'] = username
+    params['username'] = email
     params['password'] = password
     if session is None:
         session = Session()
     return make_api_call(session, 'GET', uri, params=params)
 
 
-def api_post_with_auth(uri, session=None, auth=False, data=None, username=USER_LOGIN, password=USER_PASS, **kwargs):
+def api_post_with_auth(uri, session=None, auth=False, data=None, email=USER_MAIL, password=USER_PASS, **kwargs):
     if data is None:
         data = {}
-    data['username'] = username
+    data['username'] = email
     data['password'] = password
     if session is None:
         session = Session()
