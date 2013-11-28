@@ -184,3 +184,11 @@ def dismiss_js_alert(browser):
     msg = alert.text  # it's workaround for 'a is null'
     alert.dismiss()
     return msg
+
+
+def get_true_text(element):
+    children = element.find_elements_by_xpath('*')
+    original_text = element.text
+    for child in children:
+        original_text = original_text.replace(child.text, '', 1)
+    return original_text
