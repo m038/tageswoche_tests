@@ -1,6 +1,5 @@
 import re
 
-from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
 
 from test_tool.settings import MAX_WAIT, LONG_AJAX
@@ -68,16 +67,16 @@ def get_all_comments_contents(browser, type='all'):
     type: 'all'/'recommended'
     """
     comments_elements = get_all_comments_elements(browser, type)
-    comments = {}
+    comments = []
     pattern = re.compile('(.*)\n$')
     for element in comments_elements:
-        comment_id = element.get_attribute('data-comment-id')
-        comments[comment_id] = {
+        comments.append({
+            'comment_id': element.get_attribute('data-comment-id'),
             'subject': element.find_element_by_css_selector('h4').text,
             'content': pattern.findall(get_true_text(element.find_element_by_css_selector('p')))[0],
             #'author': element.find_element_by_css_selector('span.comment-uname').text,
             'author': element.find_element_by_xpath('//small/a').text,
-        }
+        })
     return comments
 
 

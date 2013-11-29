@@ -39,7 +39,7 @@ class CommentsTestCase(TestCase):
             max(
                 comment['subject'] == unicode(self.posted_comment['subject'])
                 and comment['content'] == unicode(self.posted_comment['content'])
-                for comment in comments_list.values()
+                for comment in comments_list
             ),
             'Posted comment is not in appropriate list.'
         )
