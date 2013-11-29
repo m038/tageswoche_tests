@@ -37,17 +37,17 @@ def get_all_comments_elements(browser, type='all'):
     type: 'all'/'recommended'
     """
     def waiting_function(br):
-        try:
-            show_more_link = browser.find_element_by_css_selector('#weitere_kommentare a')
-            if show_more_link.is_displayed():
-                show_more_link.click()
-        except NoSuchElementException:
-            pass
         if type == 'all':
             elements = br.find_elements_by_css_selector('#alle-kommentare li')
         if type == 'recommended':
             elements = br.find_elements_by_css_selector('#ausgewahlte-kommentare li')
-        return elements if len(elements) == comments_number else None
+        if len(elements) == comments_number:
+            return elements
+        else:
+            show_more_link = browser.find_element_by_css_selector('#weitere_kommentare a[data-tab="{type}"]'.format(
+                type=type
+            ))
+            show_more_link.click()
 
     pattern = re.compile('\d+')
     if type == 'all':
@@ -79,3 +79,23 @@ def get_all_comments_contents(browser, type='all'):
             'author': element.find_element_by_xpath('//small/a').text,
         }
     return comments
+
+
+def get_all_good_comments(browser):
+
+    pattern_pager = re.compile('/(\d+)$')
+    comments_number = int(
+        pattern_pager.findall(
+            browser.find_element_by_css_selector('article .slideshow .paging .caption').text
+        )[0]
+    )
+
+    selector = 'div.slide-item blockquote'
+    WebDriverWait(browser, MAX_WAIT).until(
+        lambda br: True if len(br.find_elements_by_css_selector(selector)) == comments_number else None
+    )
+    good_comments_content = [
+        browser.execute_script("return $('{selector}')[{i}].innerHTML;".format(selector=selector, i=i))
+        for i in range(comments_number)
+    ]
+    return good_comments_content
