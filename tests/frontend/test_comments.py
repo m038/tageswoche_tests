@@ -1,7 +1,8 @@
 from unittest import TestCase, SkipTest
 
-from test_tool.helpers.selenium_stuff import navigate
+from test_tool.helpers.selenium_stuff import navigate, get_or_refresh
 from test_tool.helpers.actions.frontend.article import open_first_article
+from test_tool.helpers.actions.admin.comments import find_comment_element_on_backend, recommend_comment
 from test_tool.helpers.actions.frontend.comments import add_comment, get_all_comments_contents
 from test_tool.settings import PRODUCTION
 
@@ -19,6 +20,7 @@ class CommentsTestCase(TestCase):
         cls.browser_user = test_data.browser_user
         cls.browser_user.get(navigate('/'))
         open_first_article(cls.browser_user)
+        cls.posted_comment = add_comment(cls.browser_user)
 
     @classmethod
     def tearDownClass(cls):
@@ -30,17 +32,30 @@ class CommentsTestCase(TestCase):
     def tearDown(self):
         pass
 
+    def verify_is_comment_in_list(self, comments_list):
+        self.assertTrue(
+            max(
+                comment['subject'] == unicode(self.posted_comment['subject'])
+                and comment['content'] == unicode(self.posted_comment['content'])
+                for comment in comments_list.values()
+            ),
+            'Posted comment is not in appropriate list.'
+        )
+
     def test_normal_comment(self):
         """
         Post a normal comment
         """
-        posted_comment = add_comment(self.browser_user)
         comments = get_all_comments_contents(self.browser_user)
-        self.assertTrue(
-            max(
-                comment['subject'] == unicode(posted_comment['subject'])
-                and comment['content'] == unicode(posted_comment['content'])
-                for comment in comments.values()
-            ),
-            'Posted comment is not in "all comments" list.'
-        )
+        self.verify_is_comment_in_list(comments)
+
+    def test_recommended_comment(self):
+        """
+        Post a comment and make it Recommended
+        """
+        get_or_refresh(self.browser_admin, '/admin/comment')
+        comment_element = find_comment_element_on_backend(self.browser_admin, self.posted_comment['content'])
+        recommend_comment(self.browser_admin, comment_element)
+        self.browser_user.refresh()
+        recommended_comments = get_all_comments_contents(self.browser_user, 'recommended')
+        self.verify_is_comment_in_list(recommended_comments)

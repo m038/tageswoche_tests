@@ -192,3 +192,11 @@ def get_true_text(element):
     for child in children:
         original_text = original_text.replace(child.text, '', 1)
     return original_text
+
+
+def get_or_refresh(browser, uri):
+    url = navigate(uri)
+    if browser.current_url == url:
+        browser.refresh()
+    else:
+        browser.get(url)

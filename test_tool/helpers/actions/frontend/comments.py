@@ -32,8 +32,10 @@ def add_comment(browser, subject=None, content=None):
     }
 
 
-def get_all_comments_elements(browser):
-
+def get_all_comments_elements(browser, type='all'):
+    """
+    type: 'all'/'recommended'
+    """
     def waiting_function(br):
         try:
             show_more_link = browser.find_element_by_css_selector('#weitere_kommentare a')
@@ -41,21 +43,31 @@ def get_all_comments_elements(browser):
                 show_more_link.click()
         except NoSuchElementException:
             pass
-        elements = br.find_elements_by_css_selector('#alle-kommentare li')
+        if type == 'all':
+            elements = br.find_elements_by_css_selector('#alle-kommentare li')
+        if type == 'recommended':
+            elements = br.find_elements_by_css_selector('#ausgewahlte-kommentare li')
         return elements if len(elements) == comments_number else None
 
-    all_comments_button = WebDriverWait(browser, MAX_WAIT).until(
-        lambda br: br.find_element_by_css_selector('a[href="#alle-kommentare"]')
-    )
-    all_comments_button.click()
     pattern = re.compile('\d+')
-    comments_number = int(pattern.findall(all_comments_button.text)[0])
+    if type == 'all':
+        all_comments_button = WebDriverWait(browser, MAX_WAIT).until(
+            lambda br: br.find_element_by_css_selector('a[href="#alle-kommentare"]')
+        )
+        all_comments_button.click()
+        comments_number = int(pattern.findall(all_comments_button.text)[0])
+    if type == 'recommended':
+        recommended_comments_button = browser.find_element_by_css_selector('a[href="#ausgewahlte-kommentare"]')
+        comments_number = int(pattern.findall(recommended_comments_button.text)[0])
     comments_elements = WebDriverWait(browser, LONG_AJAX).until(waiting_function)
     return comments_elements
 
 
-def get_all_comments_contents(browser):
-    comments_elements = get_all_comments_elements(browser)
+def get_all_comments_contents(browser, type='all'):
+    """
+    type: 'all'/'recommended'
+    """
+    comments_elements = get_all_comments_elements(browser, type)
     comments = {}
     pattern = re.compile('(.*)\n$')
     for element in comments_elements:
