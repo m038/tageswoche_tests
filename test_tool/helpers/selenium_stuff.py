@@ -117,15 +117,19 @@ def get_image_name_from_path(path):
 def wait_for_visible(obj, timeout, function, until_not=False):
     start_time = datetime.now().second
     time_elapsed = 0
+    elem = None
     while time_elapsed < timeout:
         try:
-            elem = WebDriverWait(obj, timeout).until(function)
-        except TimeoutException as e:
-            if not until_not:
-                raise(e)
-        logger.debug((elem, elem.is_displayed()),)
-        if elem.is_displayed() != until_not:
-            return elem
+            elem = function(obj)
+        except NoSuchElementException:
+            if until_not:
+                return
+        if elem is not None:
+            try:
+                if elem.is_displayed() != until_not:
+                    return elem
+            except StaleElementReferenceException:
+                pass
         time_elapsed = datetime.now().second - start_time
         time.sleep(DEFAULT_WAIT)
     raise SeleniumHelperException("Max timeout reached for waiting for visible element.")
@@ -134,7 +138,7 @@ def wait_for_visible(obj, timeout, function, until_not=False):
 def wait_for_visible_by_css(browser, timeout, selector, until_not=False):
     function = lambda br: br.find_element_by_css_selector(selector)
     try:
-        wait_for_visible(browser, timeout, function, until_not)
+        return wait_for_visible(browser, timeout, function, until_not)
     except SeleniumHelperException:
         raise SeleniumHelperException(
             "Max timeout reached for waiting for visible element {0}.".format(selector)
