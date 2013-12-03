@@ -2,7 +2,7 @@ import os
 import string
 import random
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 from urlparse import urljoin
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
@@ -11,7 +11,7 @@ from selenium.common.exceptions import NoSuchElementException, StaleElementRefer
 
 from test_tool.logger import logger
 from test_tool.helpers.js_stuff import js_is_visible
-from test_tool.settings import (SERVER_URL, ADMIN_URI, DEFAULT_WAIT, WEBDRIVER, MAX_WAIT, MOBILE)
+from test_tool.settings import (SERVER_URL, ADMIN_URI, DEFAULT_WAIT, WEBDRIVER, MAX_WAIT, MOBILE, TZ)
 
 
 class SeleniumHelperException(Exception):
@@ -128,24 +128,17 @@ def wait_for_visible(obj, timeout, function, until_not=False):
             return elem
         time_elapsed = datetime.now().second - start_time
         time.sleep(DEFAULT_WAIT)
-    raise SeleniumHelperException("Max timeout reached for waiting for element")
+    raise SeleniumHelperException("Max timeout reached for waiting for visible element.")
 
 
 def wait_for_visible_by_css(browser, timeout, selector, until_not=False):
     function = lambda br: br.find_element_by_css_selector(selector)
-    start_time = datetime.now().second
-    time_elapsed = 0
-    while time_elapsed < timeout:
-        if until_not:
-            elem = WebDriverWait(browser, timeout).until_not(function)
-        else:
-            elem = WebDriverWait(browser, timeout).until(function)
-        logger.debug((selector, js_is_visible(browser, selector)), )
-        if js_is_visible(browser, selector):
-            return elem
-        time_elapsed = datetime.now().second - start_time
-        time.sleep(DEFAULT_WAIT)
-    raise SeleniumHelperException("Max timeout reached for waiting for element")
+    try:
+        wait_for_visible(browser, timeout, function, until_not)
+    except SeleniumHelperException:
+        raise SeleniumHelperException(
+            "Max timeout reached for waiting for visible element {0}.".format(selector)
+        )
 
 
 def hover(browser, element):
@@ -200,3 +193,8 @@ def get_or_refresh(browser, uri):
         browser.refresh()
     else:
         browser.get(url)
+
+
+def get_current_time():
+    offset = TZ if time.localtime().tm_isdst == 0 else TZ + 1
+    return datetime.utcnow() + timedelta(hours=offset)

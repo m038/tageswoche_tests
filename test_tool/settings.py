@@ -24,6 +24,7 @@ MAX_WAIT = 10
 WEBDRIVER = "firefox"
 
 DEBUG = False
+TZ = 1
 
 try:
     from settings_local import *
