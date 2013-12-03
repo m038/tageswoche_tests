@@ -1,7 +1,7 @@
 from unittest import TestCase, SkipTest
 
 from test_tool.helpers.selenium_stuff import navigate, get_or_refresh
-from test_tool.helpers.actions.admin.feedback import find_feedback_element_on_backend, get_list_of_feedback
+from test_tool.helpers.actions.admin.feedback import get_list_of_feedback
 from test_tool.helpers.actions.frontend.feedback import add_feedback
 from test_tool.settings import PRODUCTION
 
