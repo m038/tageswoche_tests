@@ -41,12 +41,15 @@ class EventsTestCase(TestCase, AdditionalVerifiesTestClass):
         get_or_refresh(self.browser, '/agenda')
         self.wait_for_loading_bar_to_dissapear()
 
-    def test_agenda_date(self):
+    def test_agenda_default(self):
         """
-        Check if agenda date is actual
+        Check if on default agenda page date is actual and filter is "1 Tag"
         """
         self.open_agenda()
-        self.assertIn(self.current_date, self.browser.current_url)
+        self.assertIn(self.current_date, self.browser.current_url,
+                      "URL not contains {date}".format(date=self.current_date))
+        self.assertIn("period:1", self.browser.current_url,
+                      "URL not contains 'period:1'")
 
     def test_list_of_regions(self):
         """
@@ -96,3 +99,32 @@ class EventsTestCase(TestCase, AdditionalVerifiesTestClass):
         tomorrow_date = (get_current_time() + timedelta(days=1))\
             .strftime('%Y-%m-%d')
         self.assertIn(tomorrow_date, self.browser.current_url)
+
+    def verify_period(self, period_link_id, period_string_in_url):
+        self.open_agenda()
+        calendar_link = self.browser.find_element_by_id('datapicker-button')
+        calendar_link.click()
+        period_link = wait_for_visible(
+            self.browser, MAX_FOR_AJAX,
+            lambda br:
+            br.find_element_by_id(period_link_id))
+        period_link.click()
+        first_day_in_calendar = self.browser.find_element_by_css_selector(
+            'div#agenda-datepicker td a.ui-state-default')
+        first_day_in_calendar.click()
+        self.wait_for_loading_bar_to_dissapear()
+        self.assertIn(period_string_in_url, self.browser.current_url,
+                      "URL not contains '{period}'.".format(
+                          period=period_string_in_url))
+
+    def test_2_tage(self):
+        """
+        Check if "2 Tage" option adds right period parameter to URL
+        """
+        self.verify_period('agenda_span_2', 'period:2')
+
+    def test_1_woche(self):
+        """
+        Check if "1 Woche" option adds right period parameter to URL
+        """
+        self.verify_period('agenda_span_7', 'period:7')
