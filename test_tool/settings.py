@@ -27,6 +27,6 @@ DEBUG = False
 TZ = 1
 
 try:
-    from settings_local import *
+    from .settings_local import *
 except Exception:
     pass

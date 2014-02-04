@@ -1,7 +1,7 @@
 import os
 import shutil
 from requests import Session
-from urlparse import urljoin
+from urllib.parse import urljoin
 
 from test_tool.logger import logger
 from test_tool.api.exceptions import ApiException

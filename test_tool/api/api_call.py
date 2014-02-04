@@ -1,6 +1,6 @@
 import json
 from requests import Session
-from urlparse import urljoin
+from urllib.parse import urljoin
 
 from test_tool.settings import SERVER_URL, USER_MAIL, USER_PASS
 from test_tool.api.exceptions import ApiException
