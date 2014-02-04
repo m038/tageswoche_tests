@@ -42,4 +42,4 @@ class ThemenPageWithoutDossierTestCase(TestCase, AdditionalVerifiesTestClass):
         """
         This test verifies if topic page has a button needed to add topic into Meine Themen.
         """
-        self.verify_text_in_selector('a[href="#theme-abonnieren-content"]', u"Dieses Thema abonnieren")
+        self.verify_text_in_selector('a[href="#theme-abonnieren-content"]', "Dieses Thema abonnieren")

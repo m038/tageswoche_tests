@@ -28,7 +28,7 @@ class AdditionalVerifiesTestClass(object):
         try:
             return WebDriverWait(self.browser, MAX_WAIT).until(verify_function)
         except TimeoutException:
-            self.fail(u"'{text}' is not in '{selector}'".format(text=text, selector=selector))
+            self.fail("'{text}' is not in '{selector}'".format(text=text, selector=selector))
 
     def verify_text_in_selectors_attribute(self, selector, attribute, text):
         def verify_function(br):
@@ -40,7 +40,7 @@ class AdditionalVerifiesTestClass(object):
         try:
             WebDriverWait(self.browser, MAX_WAIT).until(verify_function)
         except TimeoutException:
-            self.fail(u"{text} is not in '{selector}'".format(text=text, selector=selector))
+            self.fail("{text} is not in '{selector}'".format(text=text, selector=selector))
 
     def verify_number_of_elements(self, selector, number):
         def verify_function(br):
