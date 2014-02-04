@@ -37,8 +37,8 @@ class CommentsTestCase(TestCase):
     def verify_is_comment_in_list(self, comments_list):
         self.assertTrue(
             max(
-                comment['subject'] == unicode(self.posted_comment['subject'])
-                and comment['content'] == unicode(self.posted_comment['content'])
+                comment['subject'] == self.posted_comment['subject']
+                and comment['content'] == self.posted_comment['content']
                 for comment in comments_list
             ),
             'Posted comment is not in appropriate list.'
@@ -72,6 +72,6 @@ class CommentsTestCase(TestCase):
         self.browser_guest.get(navigate('/'))
         good_comments = get_all_good_comments(self.browser_guest)
         self.assertTrue(
-            unicode(self.posted_comment['content']) in good_comments,
+            self.posted_comment['content'] in good_comments,
             "Posted comment is not on frontpage."
         )

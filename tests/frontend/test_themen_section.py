@@ -29,7 +29,7 @@ class ThemenSectionTestCase(TestCase, AdditionalVerifiesTestClass):
 
     def test_top(self):
         top_text_frontend = self.browser.find_element_by_css_selector('figure.mobile-pull-left big b').text
-        top_text_api = unicode(self.api_result[0]['title'])
+        top_text_api = self.api_result[0]['title']
         self.assertEqual(top_text_api, top_text_frontend,
                          u"Top topic short text differs ('{0}','{1}').".format(top_text_api, top_text_frontend))
 

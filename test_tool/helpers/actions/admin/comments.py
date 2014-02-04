@@ -21,7 +21,7 @@ def find_comment_element_on_backend(browser, comment_text):
     comments = get_list_of_comments(browser)
     comment_element = [
         comment['element'] for comment in comments
-        if comment['content'] == unicode(comment_text)
+        if comment['content'] == comment_text
     ][0]
     return comment_element
 

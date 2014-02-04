@@ -32,8 +32,8 @@ class FeedbackTestCase(TestCase):
     def verify_is_feedback_in_list(self, feedback_list):
         self.assertTrue(
             max(
-                comment['subject'] == unicode(self.feedback['subject'])
-                and comment['content'] == unicode(self.feedback['content'])
+                comment['subject'] == self.feedback['subject']
+                and comment['content'] == self.feedback['content']
                 for comment in feedback_list
             ),
             'Posted feedback is not in appropriate list.'
