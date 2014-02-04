@@ -55,7 +55,7 @@ class ArticleTestCase(TestCase):
     def verify_article_list_presence(self):
         try:
             WebDriverWait(self.browser_admin, MAX_WAIT).until(
-                lambda br: True if u'Article List' in
+                lambda br: True if 'Article List' in
                                    br.find_element_by_css_selector('div.toolbar.clearfix span.article-title').text
                 else None
             )

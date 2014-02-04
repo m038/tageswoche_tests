@@ -40,7 +40,7 @@ class WidgetsTestCase(TestCase, AdditionalVerifiesTestClass):
         """
         Weather widget is presented on home page
         """
-        self.verify_text_in_selector('a#weather-link span', u'°C Basel')
+        self.verify_text_in_selector('a#weather-link span', '°C Basel')
 
     def test_omnitracker(self):
         """

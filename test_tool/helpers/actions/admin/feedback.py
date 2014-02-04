@@ -6,7 +6,7 @@ def sort_by_date(browser):
     sort_icon = wait_for_visible(browser, LONG_AJAX, lambda br: br.find_element_by_css_selector(
         '.commentTimeCreated .DataTables_sort_icon')
     )
-    while not u'ui-icon-triangle-1-s' in sort_icon.get_attribute('class').split():
+    while not 'ui-icon-triangle-1-s' in sort_icon.get_attribute('class').split():
         sort_icon.click()
 
 
