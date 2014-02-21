@@ -17,8 +17,8 @@ def fill_login_form_mobile(browser, email=USER_MAIL, password=USER_PASS):
 
 
 def fill_login_form_admin(browser, username=ADMIN_LOGIN, password=ADMIN_PASS):
-    browser.find_element_by_css_selector('input[name="f_user_name"]').send_keys(username)
-    browser.find_element_by_css_selector('input[name="f_password"]').send_keys(password)
+    browser.find_element_by_css_selector('input[name="_username"]').send_keys(username)
+    browser.find_element_by_css_selector('input[name="_password"]').send_keys(password)
     browser.find_element_by_css_selector('input[name="Login"]').click()
 
 
@@ -52,8 +52,8 @@ def log_in_if_necessary(browser, email=USER_MAIL, password=USER_PASS):
 
 def log_in_to_admin_backend_if_necessary(browser, username=ADMIN_LOGIN, password=ADMIN_PASS):
     result = wait_for_one_of_elements({
-        "login_form": (browser.find_element_by_css_selector, ('input[name="f_user_name"]')),
-        "already_logged_in": (browser.find_elements_by_css_selector, ('a[href="/admin/auth/logout"]')),
+        "login_form": (browser.find_element_by_css_selector, ('input[name="_username"]')),
+        "already_logged_in": (browser.find_elements_by_css_selector, ('a[href="/admin/logout"]')),
     }, only_visible=True)
     logger.debug(result[0])
 
@@ -64,7 +64,7 @@ def log_in_to_admin_backend_if_necessary(browser, username=ADMIN_LOGIN, password
 
     result = wait_for_one_of_elements({
         "login_failed": (browser.find_element_by_css_selector, ('div.login_error')),
-        "logged_in": (browser.find_elements_by_css_selector, ('a[href="/admin/auth/logout"]')),
+        "logged_in": (browser.find_elements_by_css_selector, ('a[href="/admin/logout"]')),
     }, only_visible=True)
     logger.debug(result[0])
 
