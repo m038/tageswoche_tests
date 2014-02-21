@@ -133,7 +133,7 @@ def parent(element):
 
 
 def wait_for_visible(obj, timeout, function, until_not=False):
-    start_time = datetime.now().second
+    start_time = int(time.time())
     time_elapsed = 0
     elem = None
     while time_elapsed < timeout:
@@ -148,8 +148,10 @@ def wait_for_visible(obj, timeout, function, until_not=False):
                     return elem
             except StaleElementReferenceException:
                 pass
-        time_elapsed = datetime.now().second - start_time
+        time_elapsed = int(time.time()) - start_time
         time.sleep(DEFAULT_WAIT)
+        if DEBUG:
+            print((time_elapsed, timeout), )
     raise SeleniumHelperException("Max timeout reached for waiting for\
  visible element.")
 
@@ -178,7 +180,7 @@ def wait_for_visible_by_id(browser, timeout, selector, until_not=False):
 
 def wait_for_visible_text_by_css(browser, timeout, selector, text,
                                  case_sensitive=False, partial=False,
-                                 until_not=False):
+                                 until_not=False, wrong_text=False):
     def function(br):
         elements = br.find_elements_by_css_selector(selector)
         for element in elements:
@@ -190,7 +192,11 @@ def wait_for_visible_text_by_css(browser, timeout, selector, text,
                 right_text = text.lower()
             if (
                     (right_text == element_text and not partial) or
-                    (right_text in element_text and partial)):
+                    (right_text in element_text and partial) or
+                    (wrong_text and
+                     (right_text != element_text and not partial) or
+                     (right_text not in element_text and partial)
+                    )):
                 return element
         return None
     try:
