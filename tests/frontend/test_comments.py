@@ -2,9 +2,10 @@ from unittest import TestCase, SkipTest
 
 from test_tool.helpers.selenium_stuff import navigate, get_or_refresh
 from test_tool.helpers.actions.frontend.article import open_first_article
-from test_tool.helpers.actions.admin.comments import (find_comment_element_on_backend, recommend_comment,
-                                                      make_comment_good)
-from test_tool.helpers.actions.frontend.comments import add_comment, get_all_comments_contents, get_all_good_comments
+from test_tool.helpers.actions.admin.comments import (
+    find_comment_element_on_backend, recommend_comment, make_comment_good)
+from test_tool.helpers.actions.frontend.comments import (
+    add_comment, get_all_comments_contents, get_all_good_comments)
 from test_tool.settings import PRODUCTION
 
 from tests import test_data
@@ -55,7 +56,7 @@ class CommentsTestCase(TestCase):
         """
         Post a comment and make it Recommended
         """
-        get_or_refresh(self.browser_admin, '/admin/comment')
+        get_or_refresh(self.browser_admin, '/admin/comments')
         comment_element = find_comment_element_on_backend(self.browser_admin, self.posted_comment['content'])
         recommend_comment(self.browser_admin, comment_element)
         self.browser_user.refresh()
@@ -66,7 +67,7 @@ class CommentsTestCase(TestCase):
         """
         Post a comment and make it Good
         """
-        get_or_refresh(self.browser_admin, '/admin/comment')
+        get_or_refresh(self.browser_admin, '/admin/comments')
         comment_element = find_comment_element_on_backend(self.browser_admin, self.posted_comment['content'])
         make_comment_good(self.browser_admin, comment_element)
         self.browser_guest.get(navigate('/'))
