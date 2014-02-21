@@ -150,8 +150,6 @@ def wait_for_visible(obj, timeout, function, until_not=False):
                 pass
         time_elapsed = int(time.time()) - start_time
         time.sleep(DEFAULT_WAIT)
-        if DEBUG:
-            print((time_elapsed, timeout), )
     raise SeleniumHelperException("Max timeout reached for waiting for\
  visible element.")
 
