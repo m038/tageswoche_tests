@@ -47,3 +47,4 @@ def make_comment_good(browser, comment_element):
         comment_element, DEFAULT_WAIT,
         'ul.select2-results div.select2-result-label')
     good_choice.click()
+    wait_for_visible_by_css(browser, LONG_AJAX, 'div.flash')
