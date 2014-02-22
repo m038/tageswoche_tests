@@ -1,6 +1,6 @@
 from test_tool.settings import DEFAULT_WAIT, LONG_AJAX
 from test_tool.helpers.selenium_stuff import(
-    scroll_to, hover, wait_for_visible_by_css)
+    scroll_to, hover, wait_for_visible_by_css, SeleniumHelperException)
 
 
 def get_list_of_comments(browser):
@@ -24,8 +24,10 @@ def find_comment_element_on_backend(browser, comment_text):
     comment_element = [
         comment['element'] for comment in comments
         if comment['content'] == comment_text
-    ][0]
-    return comment_element
+    ]
+    if len(comment_element) == 0:
+        raise SeleniumHelperException('Comment is not found on backend')
+    return comment_element[0]
 
 
 def recommend_comment(browser, comment_element):
