@@ -1,7 +1,8 @@
 from unittest import TestCase
 
-from test_tool.helpers.selenium_stuff import navigate, unescape
-from test_tool.api.sections.articles import list as api_list
+from test_tool.helpers.selenium_stuff import unescape
+from test_tool.api.sections.articles import api_list
+from test_tool.helpers.actions.frontend.playlists import goto_playlist
 
 from tests import test_data
 
@@ -24,7 +25,7 @@ class PlaylistTestCase(TestCase):
     def tearDown(self):
         pass
 
-    def verify_playlist(self, section_id, uri, check_results):
+    def verify_playlist(self, section_id, playlist, check_results):
 
         articles_links_api = [
             {
@@ -36,7 +37,7 @@ class PlaylistTestCase(TestCase):
         ]
         self.assertEqual(check_results, len(articles_links_api))
 
-        self.browser.get(navigate(uri))
+        goto_playlist(self.browser, playlist)
         articles_links_frontend = [result.get_attribute('href') for result in
                                    self.browser.find_elements_by_css_selector('article h2 a')
                                    ]
@@ -59,46 +60,46 @@ class PlaylistTestCase(TestCase):
         check if frontpage (http://tageswoche.ch) and it's second page are contain URLs of 15 first objects\
          (attribute Rank) regarding to their article id.
         """
-        self.verify_playlist(section_id=6, uri='/', check_results=15)
+        self.verify_playlist(section_id=6, playlist='frontpage', check_results=15)
 
     def test_playlist_basel(self):
         """
         check if section (http://www.tageswoche.ch/basel) contains URLs of 14 first objects (attribute Rank) regarding\
          to their article id.
         """
-        self.verify_playlist(section_id=7, uri='/basel', check_results=14)
+        self.verify_playlist(section_id=7, playlist='basel', check_results=14)
 
     def test_playlist_schweiz(self):
         """
         check if section (http://www.tageswoche.ch/schweiz) and it's second page are contain URLs of 15 first objects\
          (attribute Rank) regarding to their article id.
         """
-        self.verify_playlist(section_id=8, uri='/schweiz', check_results=15)  # @TODO:18
+        self.verify_playlist(section_id=8, playlist='schweiz', check_results=15)  # @TODO:18
 
     def test_playlist_international(self):
         """
         check if section (http://www.tageswoche.ch/international) and it's second page are contain URLs of 15 first\
          objects (attribute Rank) regarding to their article id.
         """
-        self.verify_playlist(section_id=9, uri='/international', check_results=15)  # @TODO:18
+        self.verify_playlist(section_id=9, playlist='international', check_results=15)  # @TODO:18
 
     def test_playlist_sport(self):
         """
         check if section (http://www.tageswoche.ch/sport) and it's second page are contain URLs of 15 first objects\
          (attribute Rank) regarding to their article id.
         """
-        self.verify_playlist(section_id=10, uri='/sport', check_results=15)  # @TODO:18
+        self.verify_playlist(section_id=10, playlist='sport', check_results=15)  # @TODO:18
 
     def test_playlist_kultur(self):
         """
         check if section (http://www.tageswoche.ch/kultur) and it's second page are contain URLs of 15 first objects\
          (attribute Rank) regarding to their article id.
         """
-        self.verify_playlist(section_id=11, uri='/kultur', check_results=15)  # @TODO:18
+        self.verify_playlist(section_id=11, playlist='kultur', check_results=15)  # @TODO:18
 
     def test_playlist_leben(self):
         """
         check if section (http://www.tageswoche.ch/leben) and it's second page are contain URLs of 15 first objects\
          (attribute Rank) regarding to their article id.
         """
-        self.verify_playlist(section_id=25, uri='/leben', check_results=15)  # @TODO:18
+        self.verify_playlist(section_id=25, playlist='leben', check_results=15)  # @TODO:18
