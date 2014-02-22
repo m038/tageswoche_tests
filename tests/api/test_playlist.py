@@ -35,13 +35,13 @@ class PlaylistTestCase(TestCase):
             }
             for result in api_list(self.session, section_id=section_id)
         ]
-        self.assertEqual(check_results, len(articles_links_api))
+        self.assertEqual(len(articles_links_api), check_results)
 
         goto_playlist(self.browser, playlist)
         articles_links_frontend = [result.get_attribute('href') for result in
                                    self.browser.find_elements_by_css_selector('article h2 a')
                                    ]
-        self.assertEqual(check_results, len(articles_links_frontend))
+        self.assertGreaterEqual(len(articles_links_frontend), check_results)
 
         for i in range(check_results):
             if articles_links_api[i]['link']:
