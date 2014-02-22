@@ -79,6 +79,8 @@ def wait_for_one_of_elements(dict_of_functions, only_visible=False,
                             [r.is_displayed() for r in result])
                     except (IndexError, TypeError, ValueError):
                         result_is_displayed = False
+                    except StaleElementReferenceException:
+                        pass
                 except StaleElementReferenceException:
                     result_is_displayed = False
                 if should_be_visible and not result_is_displayed:
