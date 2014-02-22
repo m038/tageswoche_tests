@@ -1,8 +1,8 @@
 from selenium.webdriver.support.ui import WebDriverWait
 
-from test_tool.settings import MAX_WAIT, DEFAULT_WAIT
+from test_tool.settings import MAX_WAIT, MAX_FOR_AJAX
 from test_tool.helpers.selenium_stuff import (
-    id_generator, wait_for_visible, wait_for_visible_by_css)
+    id_generator, wait_for_visible_by_css)
 
 
 def add_feedback(browser, subject=None, content=None):
@@ -17,7 +17,7 @@ def add_feedback(browser, subject=None, content=None):
 
     try:
         feedback_option = wait_for_visible_by_css(
-            browser, DEFAULT_WAIT,
+            browser, MAX_FOR_AJAX,
             "#omniboxCommentRadioFeedback")
     except:
         pass
@@ -25,12 +25,12 @@ def add_feedback(browser, subject=None, content=None):
         feedback_option.click()
 
     subject_field = wait_for_visible_by_css(
-        browser, MAX_WAIT, 'omniboxFeedbackSubject')
+        browser, MAX_WAIT, '#omniboxFeedbackSubject')
     subject_field.send_keys(subject)
     content_field = browser.find_element_by_id('omniboxFeedbackContent')
     content_field.send_keys(content)
     send_button = wait_for_visible_by_css(
-        browser, MAX_WAIT, '#omniboxFeedbackForm button[type="submit"]')
+        browser, MAX_WAIT, 'button#send-feedback-btn')
     send_button.click()
     hide_omni = wait_for_visible_by_css(
         browser, MAX_WAIT, '#omniboxMessage a')
