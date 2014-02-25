@@ -67,7 +67,7 @@ class PlaylistTestCase(TestCase):
         check if section (http://www.tageswoche.ch/basel) contains URLs of 14 first objects (attribute Rank) regarding\
          to their article id.
         """
-        self.verify_playlist(section_id=7, playlist='basel', check_results=14)
+        self.verify_playlist(section_id=7, playlist='basel', check_results=15)
 
     def test_playlist_schweiz(self):
         """

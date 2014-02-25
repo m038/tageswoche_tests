@@ -250,12 +250,17 @@ def dismiss_js_alert(browser):
     return msg
 
 
-def get_true_text(element):
+def get_true_text(element, nostrip=False):
+    """
+    get element's text excluding it's childs' text
+    """
     children = element.find_elements_by_xpath('*')
     original_text = element.text
     for child in children:
         original_text = original_text.replace(child.text, '', 1)
-    return original_text
+    if nostrip:
+        return original_text
+    return original_text.strip()
 
 
 def get_or_refresh(browser, uri):
