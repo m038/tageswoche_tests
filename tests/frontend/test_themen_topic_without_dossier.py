@@ -29,7 +29,7 @@ class ThemenPageWithoutDossierTestCase(TestCase, AdditionalVerifiesTestClass):
 
     def test_articles_number(self):
         """
-        This test verifies if Solr* works on server and if topic page gives correct number of articles/articles/etc.
+        @TODO:        This test verifies if Solr* works on server and if topic page gives correct number of articles/articles/etc.
         """
         articles_count_frontend = len(self.browser.find_elements_by_css_selector('ul#results li'))
         articles_count_api = len(self.api_result)

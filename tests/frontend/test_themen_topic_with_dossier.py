@@ -37,7 +37,7 @@ class ThemenPageWithDossierTestCase(TestCase, AdditionalVerifiesTestClass):
 
         article_links_frontend = [element.get_attribute('href') for element in
                                   self.browser.find_elements_by_css_selector(
-                                      '.dossier-section article h2 a'
+                                      'ul#results h3 a'
                                   )]
         self.assertEqual(check_articles, len(article_links_frontend))
         article_ids_api = [record['article_id'] for record in self.api_result]

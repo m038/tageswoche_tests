@@ -34,7 +34,7 @@ def recommend_comment(browser, comment_element):
     scroll_to(comment_element)
     hover(browser, comment_element)
     recommend_button = wait_for_visible_by_css(
-        browser, DEFAULT_WAIT, 'a.action-recommend')
+        browser, DEFAULT_WAIT, 'button.action-recommend')
     recommend_button.click()
     wait_for_visible_by_css(browser, LONG_AJAX, 'div.flash')
 
@@ -46,7 +46,7 @@ def make_comment_good(browser, comment_element):
         browser, DEFAULT_WAIT, 'ul.select2-choices')
     list_select.click()
     good_choice = wait_for_visible_by_css(
-        comment_element, DEFAULT_WAIT,
+        browser, DEFAULT_WAIT,
         'ul.select2-results div.select2-result-label')
     good_choice.click()
     wait_for_visible_by_css(browser, LONG_AJAX, 'div.flash')
