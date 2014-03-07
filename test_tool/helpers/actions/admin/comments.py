@@ -1,3 +1,4 @@
+from selenium.webdriver.support.ui import WebDriverWait
 from test_tool.settings import DEFAULT_WAIT, LONG_AJAX
 from test_tool.helpers.actions.admin.common import wait_for_flash
 from test_tool.helpers.selenium_stuff import(
@@ -46,8 +47,12 @@ def make_comment_good(browser, comment_element):
     list_select = wait_for_visible_by_css(
         browser, DEFAULT_WAIT, 'ul.select2-choices')
     list_select.click()
-    good_choice = wait_for_visible_by_css(
-        browser, DEFAULT_WAIT,
-        'ul.select2-results div.select2-result-label')
+    good_choice = WebDriverWait(browser, DEFAULT_WAIT).until(
+        lambda br: br.find_element_by_xpath(
+            '//*[@id="select2-drop"]/ul/li[2]'))
     good_choice.click()
+    submit_button = wait_for_visible_by_css(
+        browser, LONG_AJAX,
+        'input.btn-success[type="submit"]')
+    submit_button.click()
     wait_for_flash(browser)
