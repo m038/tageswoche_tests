@@ -77,27 +77,27 @@ class ArticleTestCase(TestCase):
         edit_article(self.browser_admin, new_article_content, action='save')
         self.verify_article_content_on_frontend(new_article_content)
 
-    def test_edit_article_close_without_save(self):
+    def test_edit_article_close_and_leave(self):
         """
-        Changing articles as editor - Close without save
+        Changing articles as editor - Close and leave
         """
         new_article_content = ' '.join([id_generator() for i in range(20)])  # 20 random "words"
         edit_article(self.browser_admin, new_article_content, action='close')
-        WebDriverWait(self.browser_admin, MAX_WAIT).until(dismiss_js_alert)
         WebDriverWait(self.browser_admin, MAX_WAIT).until(accept_js_alert)
         self.verify_article_content_on_frontend(self.article_content)
         self.verify_article_list_presence()
 
-    def test_edit_article_close_with_save(self):
+    def test_edit_article_close_and_stay(self):
         """
-        Changing articles as editor - Close with save
+        Changing articles as editor - Close and stay
         """
         new_article_content = ' '.join([id_generator() for i in range(20)])  # 20 random "words"
         edit_article(self.browser_admin, new_article_content, action='close')
-        WebDriverWait(self.browser_admin, MAX_WAIT).until(accept_js_alert)
-        WebDriverWait(self.browser_admin, MAX_WAIT).until(accept_js_alert)
-        self.verify_article_content_on_frontend(new_article_content)
-        self.verify_article_list_presence()
+        WebDriverWait(self.browser_admin, MAX_WAIT).until(dismiss_js_alert)
+        mce_frame = WebDriverWait(self.browser_admin, 60).until(
+            lambda br: br.find_element_by_css_selector('.tinyMCEHolder iframe')
+        )  # the first mce iframe
+        self.verify_article_content_on_frontend(self.article_content)
 
     def test_edit_article_save_and_close(self):
         """

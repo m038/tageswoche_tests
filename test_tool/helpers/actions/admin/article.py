@@ -42,8 +42,9 @@ def edit_article(browser, article_content, action='save'):
         mce_frame = WebDriverWait(browser, 60).until(  # @TODO: hardcoded timeout, and it's too large
             lambda br: br.find_element_by_css_selector('.tinyMCEHolder iframe')
         )  # the first mce iframe
-    except:
+    except Exception as e:
         browser.save_screenshot('mce_bug.png')
+        raise e
     browser.switch_to_frame(mce_frame)
     edit_field = browser.find_element_by_css_selector('body#tinymce')
     edit_field.clear()
