@@ -43,6 +43,7 @@ def get_all_comments_elements(browser, type='all'):
         if len(elements) == comments_number:
             return elements
         else:
+            print((len(elements),comments_number),)
             show_more_link = browser.find_element_by_css_selector('#weitere_kommentare a[data-tab="{type}"]'.format(
                 type=type
             ))
@@ -59,6 +60,8 @@ def get_all_comments_elements(browser, type='all'):
         recommended_comments_button = browser.find_element_by_css_selector('a[href="#ausgewahlte-kommentare"]')
         comments_number = int(pattern.findall(recommended_comments_button.text)[0])
     comments_elements = WebDriverWait(browser, LONG_AJAX).until(waiting_function)
+    import pprint
+    pprint.pprint(comments_elements)
     return comments_elements
 
 
@@ -70,6 +73,9 @@ def get_all_comments_contents(browser, type='all'):
     comments = []
     pattern = re.compile('(.*)\n$')
     for element in comments_elements:
+        print(comments_elements.index(element))
+        print(element.find_element_by_css_selector('p'))
+        print(get_true_text(element.find_element_by_css_selector('p')))
         comments.append({
             'comment_id': element.get_attribute('data-comment-id'),
             'subject': element.find_element_by_css_selector('h4').text,

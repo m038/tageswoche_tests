@@ -32,6 +32,7 @@ class ArticleTestCase(TestCase):
         self.article_content = ' '.join([id_generator() for i in range(20)])  # 20 random "words"
         create_new_article(
             browser=self.browser_admin,
+            browser_frontend=self.browser,
             article_title=self.article_title,
             article_type='news',
             article_language='Deutsch',

@@ -2,10 +2,11 @@ from selenium.webdriver.support.ui import Select, WebDriverWait
 
 from test_tool.settings import LONG_AJAX
 from test_tool.helpers.selenium_stuff import navigate, wait_for_visible
+from test_tool.helpers.actions.frontend.common import get_current_publication
 from test_tool.logger import logger
 
 
-def create_new_article(browser, article_title, article_type, article_language, article_publication, article_section):
+def create_new_article(browser, browser_frontend, article_title, article_type, article_language, article_publication, article_section):
     browser.get(navigate('/admin/articles/add_move.php'))
 
     browser.find_element_by_css_selector('input[name="f_article_name"]').send_keys(article_title)
@@ -17,14 +18,14 @@ def create_new_article(browser, article_title, article_type, article_language, a
         .select_by_visible_text(article_publication)
 
     destination_issue_select = Select(
-        wait_for_visible(browser, LONG_AJAX,
-                         lambda br: br.find_element_by_css_selector('select[name="f_destination_issue_number"]')
-                         )
+        wait_for_visible(
+            browser, LONG_AJAX,
+            lambda br: br.find_element_by_css_selector(
+                'select[name="f_destination_issue_number"]')
+        )
     )
-    most_recent_article = str(max(
-        [int(o.get_attribute('value')) for o in destination_issue_select.options]
-    ))
-    destination_issue_select.select_by_value(most_recent_article)
+    destination_issue_select.select_by_visible_text(get_current_publication(
+        browser_frontend))
 
     Select(wait_for_visible(browser, LONG_AJAX,
                             lambda br: br.find_element_by_css_selector('select[name="f_destination_section_number"]')))\
@@ -37,9 +38,12 @@ def edit_article(browser, article_content, action='save'):
     """
     action: save, close, save_and_close
     """
-    mce_frame = WebDriverWait(browser, 60).until(  # @TODO: hardcoded timeout, and it's too large
-        lambda br: br.find_element_by_css_selector('.tinyMCEHolder iframe')
-    )  # the first mce iframe
+    try:
+        mce_frame = WebDriverWait(browser, 60).until(  # @TODO: hardcoded timeout, and it's too large
+            lambda br: br.find_element_by_css_selector('.tinyMCEHolder iframe')
+        )  # the first mce iframe
+    except:
+        browser.save_screenshot('mce_bug.png')
     browser.switch_to_frame(mce_frame)
     edit_field = browser.find_element_by_css_selector('body#tinymce')
     edit_field.clear()

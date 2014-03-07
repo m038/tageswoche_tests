@@ -1,4 +1,5 @@
 from test_tool.settings import DEFAULT_WAIT, LONG_AJAX
+from test_tool.helpers.actions.admin.common import wait_for_flash
 from test_tool.helpers.selenium_stuff import(
     scroll_to, hover, wait_for_visible_by_css, SeleniumHelperException)
 
@@ -36,7 +37,7 @@ def recommend_comment(browser, comment_element):
     recommend_button = wait_for_visible_by_css(
         browser, DEFAULT_WAIT, 'button.action-recommend')
     recommend_button.click()
-    wait_for_visible_by_css(browser, LONG_AJAX, 'div.flash')
+    wait_for_flash(browser)
 
 
 def make_comment_good(browser, comment_element):
@@ -49,4 +50,4 @@ def make_comment_good(browser, comment_element):
         browser, DEFAULT_WAIT,
         'ul.select2-results div.select2-result-label')
     good_choice.click()
-    wait_for_visible_by_css(browser, LONG_AJAX, 'div.flash')
+    wait_for_flash(browser)

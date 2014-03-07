@@ -19,11 +19,14 @@ class CommentsTestCase(TestCase):
         if PRODUCTION:
             raise SkipTest("these tests shouldn't be runned on production")
         cls.browser_admin = test_data.browser_admin
+
         cls.browser_user = test_data.browser_user
-        cls.browser_guest = test_data.browser_guest
         cls.browser_user.get(navigate('/'))
         open_first_article(cls.browser_user)
         cls.posted_comment = add_comment(cls.browser_user)
+
+        cls.browser_guest = test_data.browser_guest
+        cls.browser_guest.get(navigate('/'))
 
     @classmethod
     def tearDownClass(cls):
@@ -72,7 +75,7 @@ class CommentsTestCase(TestCase):
         make_comment_good(self.browser_admin, comment_element)
         self.browser_guest.get(navigate('/'))
         good_comments = get_all_good_comments(self.browser_guest)
-        self.assertTrue(
-            self.posted_comment['content'] in good_comments,
+        self.assertIn(
+            self.posted_comment['content'], good_comments,
             "Posted comment is not on frontpage."
         )
