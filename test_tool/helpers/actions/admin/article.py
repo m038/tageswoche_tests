@@ -83,3 +83,12 @@ def create_new_blog(browser, blog_title):
         lambda br: br.find_element_by_id('title')
     ).send_keys(blog_title)
     browser.find_element_by_id('submit').click()
+
+
+def publish_blog(browser, article_content):
+    edit_article(browser, article_content, action='save')
+
+    Select(browser.find_element_by_css_selector('select[name="f_action_workflow"]'))\
+        .select_by_value('Y')
+    webcode = browser.find_element_by_xpath('/html/body/div[4]/div[3]/div[4]/div[2]/dl/dd[5]').text
+    return webcode

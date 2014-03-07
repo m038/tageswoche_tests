@@ -77,7 +77,7 @@ class ArticleTestCase(TestCase):
         edit_article(self.browser_admin, new_article_content, action='save')
         self.verify_article_content_on_frontend(new_article_content)
 
-    def test_edit_article_close_and_leave(self):
+    def _edit_article_close_and_leave(self):
         """
         Changing articles as editor - Close and leave
         """
@@ -88,7 +88,7 @@ class ArticleTestCase(TestCase):
         self.verify_article_content_on_frontend(self.article_content)
         self.verify_article_list_presence()
 
-    def test_edit_article_close_and_stay(self):
+    def _edit_article_close_and_stay(self):
         """
         Changing articles as editor - Close and stay
         """
