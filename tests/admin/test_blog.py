@@ -74,6 +74,7 @@ class BlogTestCase(TestCase):
         """
         Changing blog as editor - Close without save
         """
+        self.skipTest("js alert")
         new_article_content = ' '.join([id_generator() for i in range(20)])  # 20 random "words"
         edit_article(self.browser_blogger, new_article_content, action='close')
         WebDriverWait(self.browser_blogger, MAX_WAIT).until(dismiss_js_alert)
@@ -85,6 +86,7 @@ class BlogTestCase(TestCase):
         """
         Changing blog as editor - Close with save
         """
+        self.skipTest("js alert")
         new_article_content = ' '.join([id_generator() for i in range(20)])  # 20 random "words"
         edit_article(self.browser_blogger, new_article_content, action='close')
         WebDriverWait(self.browser_blogger, MAX_WAIT).until(accept_js_alert)

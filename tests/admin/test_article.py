@@ -81,6 +81,7 @@ class ArticleTestCase(TestCase):
         """
         Changing articles as editor - Close and leave
         """
+        self.skipTest("js alert")
         new_article_content = ' '.join([id_generator() for i in range(20)])  # 20 random "words"
         edit_article(self.browser_admin, new_article_content, action='close')
         WebDriverWait(self.browser_admin, MAX_WAIT).until(accept_js_alert)
@@ -91,6 +92,7 @@ class ArticleTestCase(TestCase):
         """
         Changing articles as editor - Close and stay
         """
+        self.skipTest("js alert")
         new_article_content = ' '.join([id_generator() for i in range(20)])  # 20 random "words"
         edit_article(self.browser_admin, new_article_content, action='close')
         WebDriverWait(self.browser_admin, MAX_WAIT).until(dismiss_js_alert)
