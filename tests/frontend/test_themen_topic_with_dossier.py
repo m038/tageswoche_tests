@@ -43,7 +43,8 @@ class ThemenPageWithDossierTestCase(TestCase, AdditionalVerifiesTestClass):
         article_ids_api = [record['article_id'] for record in self.api_result]
         self.assertGreaterEqual(len(article_ids_api), check_articles)
         for i in range(check_articles):
-            if str(article_ids_api[i]) not in article_links_frontend[i]:
-                self.fail("{0}-st article id not matches ({1}, {2}).".format(
-                    i, article_ids_api[i], article_links_frontend[i]
+            self.assertIn(
+                str(article_ids_api[i]), article_links_frontend[i],
+                "{0}-st article id not matches ({1}, {2}).".format(
+                    i+1, article_ids_api[i], article_links_frontend[i]
                 ))
