@@ -39,9 +39,9 @@ class ThemenPageWithDossierTestCase(TestCase, AdditionalVerifiesTestClass):
                                   self.browser.find_elements_by_css_selector(
                                       'section.dossier-section h2 a'
                                   )]
-        self.assertEqual(check_articles, len(article_links_frontend))
+        self.assertEqual(len(article_links_frontend), check_articles)
         article_ids_api = [record['article_id'] for record in self.api_result]
-        self.assertEqual(check_articles, len(article_ids_api))
+        self.assertGreaterEqual(len(article_ids_api), check_articles)
         for i in range(check_articles):
             if str(article_ids_api[i]) not in article_links_frontend[i]:
                 self.fail("{0}-st article id not matches ({1}, {2}).".format(
