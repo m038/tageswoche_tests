@@ -14,8 +14,8 @@ def create_new_article(browser, browser_frontend, article_title, article_type, a
         .select_by_visible_text(article_type)
     Select(browser.find_element_by_css_selector('select[name="f_article_language"]'))\
         .select_by_visible_text(article_language)
-    Select(browser.find_element_by_css_selector('select[name="f_destination_publication_id"]'))\
-        .select_by_visible_text(article_publication)
+    #Select(browser.find_element_by_css_selector('select[name="f_destination_publication_id"]'))\
+    #    .select_by_visible_text(article_publication)
 
     destination_issue_select = Select(
         wait_for_visible(
